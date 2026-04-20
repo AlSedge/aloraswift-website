@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Loader2 } from 'lucide-react';
+import { PortableText } from '@portabletext/react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { fetchPostBySlug, WPPost } from '../lib/wordpress';
+import { fetchSanityPostBySlug, SanityPost } from '../lib/sanity';
 
 export default function Article() {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<WPPost | null>(null);
+  const [post, setPost] = useState<SanityPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
     async function loadPost() {
       if (!slug) return;
       setIsLoading(true);
       try {
-        const data = await fetchPostBySlug(slug);
+        const data = await fetchSanityPostBySlug(slug);
         setPost(data);
       } catch (error) {
         console.error("Failed to load post", error);
@@ -25,7 +25,6 @@ export default function Article() {
         setIsLoading(false);
       }
     }
-    
     loadPost();
   }, [slug]);
 
@@ -65,8 +64,8 @@ export default function Article() {
     );
   }
 
-  const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-  const postDate = new Date(post.date).toLocaleDateString('en-US', {
+  const featuredImage = post.mainImage?.asset?.url;
+  const postDate = new Date(post.publishedAt || new Date()).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric'
@@ -75,18 +74,16 @@ export default function Article() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans selection:bg-orange-200 selection:text-orange-900 flex flex-col">
       <Navigation />
-
       <main className="flex-grow px-4 py-12 md:px-8 lg:py-20">
         <article className="mx-auto max-w-4xl bg-white rounded-[3rem] shadow-sm border border-stone-100 overflow-hidden">
           {featuredImage ? (
             <div className="relative h-64 sm:h-80 md:h-[400px] w-full">
               <img 
                 src={featuredImage} 
-                alt={post.title.rendered} 
+                alt={post.title} 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-              
               <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                 <Link to="/#articles" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 text-sm font-semibold transition-colors">
                   <ArrowLeft size={16} />
@@ -94,12 +91,11 @@ export default function Article() {
                 </Link>
                 <div className="flex items-center gap-2 text-orange-300 text-sm mb-4 font-semibold">
                   <Calendar size={16} />
-                  <time dateTime={post.date}>{postDate}</time>
+                  <time dateTime={post.publishedAt}>{postDate}</time>
                 </div>
-                <h1 
-                  className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight"
-                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                />
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                  {post.title}
+                </h1>
               </div>
             </div>
           ) : (
@@ -110,12 +106,11 @@ export default function Article() {
               </Link>
               <div className="flex items-center gap-2 text-stone-400 text-sm mb-4 font-semibold">
                 <Calendar size={16} />
-                <time dateTime={post.date}>{postDate}</time>
+                <time dateTime={post.publishedAt}>{postDate}</time>
               </div>
-              <h1 
-                className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight"
-                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-              />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight">
+                {post.title}
+              </h1>
             </div>
           )}
 
@@ -130,12 +125,12 @@ export default function Article() {
                          [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-8 [&>ul>li]:mb-2 [&>ul>li]:text-stone-600
                          [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-8 [&>ol>li]:mb-2 [&>ol>li]:text-stone-600
                          [&>blockquote]:border-l-4 [&>blockquote]:border-orange-500 [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-stone-700"
-              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-            />
+            >
+              {post.body ? <PortableText value={post.body} /> : null}
+            </div>
           </div>
         </article>
       </main>
-
       <Footer />
     </div>
   );

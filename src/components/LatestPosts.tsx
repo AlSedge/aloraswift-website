@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchPosts, WPPost } from '../lib/wordpress';
+import { fetchSanityPosts, SanityPost } from '../lib/sanity';
 import { ArrowRight, Calendar, FileQuestion } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -8,14 +8,14 @@ interface LatestPostsProps {
 }
 
 export default function LatestPosts({ categorySlug }: LatestPostsProps) {
-  const [posts, setPosts] = useState<WPPost[]>([]);
+  const [posts, setPosts] = useState<SanityPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadPosts() {
       setIsLoading(true);
       try {
-        const data = await fetchPosts(categorySlug || undefined);
+        const data = await fetchSanityPosts(categorySlug || undefined);
         setPosts(data);
       } catch (error) {
         console.error("Failed to load posts", error);
@@ -24,7 +24,6 @@ export default function LatestPosts({ categorySlug }: LatestPostsProps) {
         setIsLoading(false);
       }
     }
-    
     loadPosts();
   }, [categorySlug]);
 
@@ -57,45 +56,41 @@ export default function LatestPosts({ categorySlug }: LatestPostsProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
       {posts.map((post) => {
-        const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+        const featuredImage = post.mainImage?.asset?.url || 
           'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop';
         
-        const rawExcerpt = post.excerpt.rendered.replace(/(<([^>]+)>)/gi, "");
-        const cleanExcerpt = rawExcerpt.length > 100 ? rawExcerpt.substring(0, 100) + '...' : rawExcerpt;
+        const cleanExcerpt = post.excerpt && post.excerpt.length > 100 
+          ? post.excerpt.substring(0, 100) + '...' 
+          : post.excerpt;
 
-        const postDate = new Date(post.date).toLocaleDateString('en-US', {
+        const postDate = new Date(post.publishedAt || new Date()).toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric',
           year: 'numeric'
         });
 
         return (
-          <div key={post.id} className="group flex flex-col overflow-hidden rounded-[2rem] bg-white border border-stone-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
+          <div key={post._id} className="group flex flex-col overflow-hidden rounded-[2rem] bg-white border border-stone-100 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
             <div className="relative h-48 overflow-hidden bg-stone-100">
               <img 
                 src={featuredImage} 
-                alt={post.title.rendered} 
+                alt={post.title} 
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-            
             <div className="flex flex-col flex-grow p-6 sm:p-8">
               <div className="flex items-center gap-2 text-stone-400 text-sm mb-4 font-medium">
                 <Calendar size={14} />
-                <time dateTime={post.date}>{postDate}</time>
+                <time dateTime={post.publishedAt}>{postDate}</time>
               </div>
-              
-              <h3 
-                className="mb-3 text-xl font-bold text-stone-900 group-hover:text-orange-500 transition-colors line-clamp-2"
-                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-              />
-              
+              <h3 className="mb-3 text-xl font-bold text-stone-900 group-hover:text-orange-500 transition-colors line-clamp-2">
+                {post.title}
+              </h3>
               <p className="mb-6 text-stone-500 line-clamp-3 flex-grow">
                 {cleanExcerpt}
               </p>
-              
               <Link 
-                to={`/article/${post.slug}`} 
+                to={`/article/${post.slug.current}`} 
                 className="inline-flex items-center text-sm font-bold text-orange-500 hover:text-orange-600 transition-colors mt-auto w-fit"
               >
                 Read Article
