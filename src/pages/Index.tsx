@@ -272,7 +272,7 @@ export default function Index() {
               </div>
               
               <h2 className="font-serif text-5xl md:text-6xl font-black text-slate-800 mb-8 leading-tight">
-                I&apos;m Alora. I write books about <span className="text-rose-500">brave frogs</span> and <span className="text-sky-500">lost koalas.</span>
+                Hi&apos; I&apos;m Alora. I write books about <span className="text-rose-500">brave platypus&apos;</span> and <span className="text-sky-500">lost koala bears.</span>
               </h2>
               
               <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium mb-10">
@@ -280,10 +280,10 @@ export default function Index() {
                     Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child&apos;s eyes light up.
                   </p>
                   <p>
-                    Now, I spend my days dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
+                    Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
                   </p>
                 <p>
-                  I live in a very squeaky old house with my husband, our two kids, and a golden retriever named Pancake who thinks he&apos;s a lap dog.
+                  I live in a rural part of Ireland with my husband, kids are grown up and living their lives away, but we have a lovely golden retriever named Loki who thinks he&apos;s everyones friend.
                 </p>
               </div>
               
