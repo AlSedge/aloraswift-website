@@ -34,7 +34,8 @@ export default function Footer() {
           <div>
             <h4 className="mb-8 font-sans text-lg font-bold text-white">Explore</h4>
             <ul className="space-y-4 font-medium">
-              <li><button onClick={() => document.getElementById('latest-release')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">📚 Books</button></li>
+              <li><button onClick={() => document.getElementById('latest-release')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">📚 My Books</button></li>
+              <li><button onClick={() => document.getElementById('reviews')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">⭐ My Reviews</button></li>
               <li><button onClick={() => document.getElementById('journal')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">🎨 Journal</button></li>
               <li><button onClick={() => document.getElementById('about')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">👋 About Alora</button></li>
               <li><button onClick={() => document.getElementById('newsletter')?.scrollIntoView({behavior: 'smooth'})} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">💌 Free Printables</button></li>

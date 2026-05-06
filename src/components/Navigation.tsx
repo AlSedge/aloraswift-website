@@ -50,7 +50,8 @@ export default function Navigation() {
         {/* Desktop Nav */}
         <nav className="hidden md:block">
           <ul className="flex items-center gap-8 font-sans text-[15px] font-bold text-slate-600">
-            <li><button onClick={() => handleScrollTo('latest-release')} className="hover:text-sky-500 transition-colors">Books</button></li>
+            <li><button onClick={() => handleScrollTo('latest-release')} className="hover:text-sky-500 transition-colors">My Books</button></li>
+            <li><button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">My Reviews</button></li>
             <li><button onClick={() => handleScrollTo('about')} className="hover:text-sky-500 transition-colors">About</button></li>
             <li><button onClick={() => handleScrollTo('journal')} className="hover:text-sky-500 transition-colors">Journal</button></li>
             <li>
@@ -75,7 +76,8 @@ export default function Navigation() {
         {/* Mobile Nav Overlay */}
         <div className={`fixed inset-0 z-40 bg-amber-50 transition-opacity duration-300 md:hidden flex flex-col justify-center items-center ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
           <nav className="flex flex-col items-center gap-10 font-serif text-4xl font-bold text-slate-800">
-            <button onClick={() => handleScrollTo('latest-release')} className="hover:text-sky-500 transition-colors">Books</button>
+            <button onClick={() => handleScrollTo('latest-release')} className="hover:text-sky-500 transition-colors">My Books</button>
+            <button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">My Reviews</button>
             <button onClick={() => handleScrollTo('about')} className="hover:text-sky-500 transition-colors">About</button>
             <button onClick={() => handleScrollTo('journal')} className="hover:text-sky-500 transition-colors">Journal</button>
             <button 
