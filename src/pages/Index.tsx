@@ -365,9 +365,9 @@ export default function Index() {
               <Send size={40} />
             </div>
             
-            <h2 className="font-serif text-5xl md:text-6xl font-black text-white mb-6">Join the Adventure Club!</h2>
+            <h2 className="font-serif text-5xl md:text-6xl font-black text-white mb-6">Say Hello!</h2>
             <p className="text-2xl text-sky-50 mb-12 font-medium leading-relaxed">
-              Sign up for my newsletter and get a <span className="font-bold text-yellow-300">FREE printable coloring book</span> instantly! Plus updates on new books and events.
+              Sign up for my latest news and get a <span className="font-bold text-yellow-300">FREE printable coloring book</span> instantly! Plus updates on new books.
             </p>
             
             <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto" onSubmit={(e) => { e.preventDefault(); alert('Yay! Welcome to the club!'); }}>
