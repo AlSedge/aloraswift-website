@@ -13,6 +13,7 @@ export function urlFor(source: any) {
   return builder.image(source);
 }
 
+// --- BOOKS ---
 export interface SanityBook {
   _id: string;
   title: string;
@@ -33,6 +34,23 @@ export async function fetchSanityBooks(): Promise<SanityBook[]> {
     _id, title, slug, coverImage, tagline, synopsis, 
     reviewQuote, reviewAuthor, buyLink, excerptLink, 
     ageRange, isNewRelease
+  }`;
+  return await client.fetch(query);
+}
+
+// --- REVIEWS ---
+export interface SanityReview {
+  _id: string;
+  title: string;
+  type: string;
+  image: any;
+  description: string;
+  link: string;
+}
+
+export async function fetchSanityReviews(): Promise<SanityReview[]> {
+  const query = `*[_type == "review"] | order(publishedAt desc) {
+    _id, title, type, image, description, link
   }`;
   return await client.fetch(query);
 }

@@ -2,24 +2,29 @@ import { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import { Sparkles, Star, BookOpen, Quote, Heart, Send } from 'lucide-react';
-import { fetchSanityBooks, SanityBook, urlFor } from '../lib/sanity';
+import { fetchSanityBooks, fetchSanityReviews, SanityBook, SanityReview, urlFor } from '../lib/sanity';
 
 export default function Index() {
   const [books, setBooks] = useState<SanityBook[]>([]);
+  const [reviews, setReviews] = useState<SanityReview[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadBooks() {
+    async function loadData() {
       try {
-        const fetchedBooks = await fetchSanityBooks();
+        const [fetchedBooks, fetchedReviews] = await Promise.all([
+          fetchSanityBooks(),
+          fetchSanityReviews()
+        ]);
         setBooks(fetchedBooks);
+        setReviews(fetchedReviews);
       } catch (error) {
-        console.error("Failed to fetch books from Sanity:", error);
+        console.error("Failed to fetch from Sanity:", error);
       } finally {
         setLoading(false);
       }
     }
-    loadBooks();
+    loadData();
   }, []);
 
   // Use the first returned book as the "Latest Release Spotlight"
@@ -35,7 +40,6 @@ export default function Index() {
         
         {/* Hero Section */}
         <section className="relative px-6 py-20 md:py-32 overflow-hidden flex flex-col items-center justify-center text-center">
-          {/* Playful Background Blobs */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <div className="absolute top-10 left-10 w-64 h-64 bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
             <div className="absolute top-0 right-20 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
@@ -182,13 +186,13 @@ export default function Index() {
               ))}
               
               {!loading && otherBooks.length === 0 && (
-                <p className="text-slate-500 col-span-3">More books coming soon!</p>
+                <p className="text-slate-500 col-span-3 font-medium">More books coming soon!</p>
               )}
             </div>
           </div>
         </section>
 
-       {/* My Reviews Section */}
+        {/* My Reviews Section */}
         <section id="reviews" className="px-6 py-24 relative">
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
@@ -199,51 +203,48 @@ export default function Index() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-10">
-              {[
-                { 
-                  title: "The Very Hungry Caterpillar", 
-                  type: "Picture Book",
-                  desc: "A timeless classic that every child should have on their bookshelf. The interactive pages are brilliant for toddlers.",
-                  color: "bg-emerald-100 text-emerald-800",
-                  img: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop",
-                  link: "https://amazon.com"
-                },
-                { 
-                  title: "Magnetic Building Tiles", 
-                  type: "Educational Toy",
-                  desc: "These have kept my kids entertained for hours! Fantastic for building spatial awareness and creativity.",
-                  color: "bg-purple-100 text-purple-800",
-                  img: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?q=80&w=2070&auto=format&fit=crop",
-                  link: "https://amazon.com"
-                },
-                { 
-                  title: "Where the Wild Things Are", 
-                  type: "Picture Book",
-                  desc: "A beautiful exploration of big emotions and imagination. The artwork is breathtaking and the story is unforgettable.",
-                  color: "bg-sky-100 text-sky-800",
-                  img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop",
-                  link: "https://amazon.com"
-                }
-              ].map((review, i) => (
-                <div key={i} className="group bg-white rounded-[2rem] p-6 shadow-sm border border-amber-50 flex flex-col">
-                  <div className="overflow-hidden rounded-2xl mb-6 aspect-video relative">
-                    <img src={review.img} alt={review.title} className="w-full h-full object-cover" />
-                  </div>
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 w-fit ${review.color}`}>
-                    {review.type}
-                  </div>
-                  <h3 className="font-serif text-2xl font-bold text-slate-800 mb-3">{review.title}</h3>
-                  <p className="text-slate-600 font-medium leading-relaxed mb-6 flex-grow">{review.desc}</p>
-                  
-                  <a href={review.link} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center justify-center rounded-full bg-slate-100 px-6 text-sm font-bold text-slate-700 transition-all hover:-translate-y-1 hover:bg-yellow-400 hover:text-yellow-900 mt-auto">
-                    View on Amazon <Sparkles className="ml-2 w-4 h-4" />
-                  </a>
-                </div>
-              ))}
+              {loading ? (
+                <p className="text-slate-500 font-medium text-center col-span-3 py-10">Loading recommendations...</p>
+              ) : reviews.length > 0 ? (
+                reviews.map((review, i) => {
+                  const colorClasses = [
+                    "bg-emerald-100 text-emerald-800",
+                    "bg-purple-100 text-purple-800",
+                    "bg-sky-100 text-sky-800",
+                    "bg-rose-100 text-rose-800"
+                  ];
+                  const color = colorClasses[i % colorClasses.length];
+
+                  return (
+                    <div key={review._id} className="group bg-white rounded-[2rem] p-6 shadow-sm border border-amber-50 flex flex-col hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                      <div className="overflow-hidden rounded-2xl mb-6 aspect-video relative">
+                        <img 
+                          src={review.image ? urlFor(review.image).width(600).url() : "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop"} 
+                          alt={review.title} 
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                        />
+                      </div>
+                      <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 w-fit ${color}`}>
+                        {review.type || "Recommendation"}
+                      </div>
+                      <h3 className="font-serif text-2xl font-bold text-slate-800 mb-3">{review.title}</h3>
+                      <p className="text-slate-600 font-medium leading-relaxed mb-6 flex-grow">{review.description}</p>
+                      
+                      {review.link && (
+                        <a href={review.link} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center justify-center rounded-full bg-slate-100 px-6 text-sm font-bold text-slate-700 transition-all hover:-translate-y-1 hover:bg-yellow-400 hover:text-yellow-900 mt-auto">
+                          View Item <Sparkles className="ml-2 w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-slate-500 font-medium text-center col-span-3 py-10">No reviews posted yet. Add some in Sanity!</p>
+              )}
             </div>
           </div>
         </section>
-       
+
         {/* About Section */}
         <section id="about" className="px-6 py-24 md:py-32 bg-amber-100 rounded-[4rem] mx-4 md:mx-8 mb-24 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
@@ -289,6 +290,63 @@ export default function Index() {
               <a href="#" className="inline-flex h-16 items-center justify-center rounded-full bg-slate-800 px-10 text-lg font-bold text-white transition-all hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl">
                 Read My Full Story
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Journal / Blog */}
+        <section id="journal" className="px-6 py-24">
+          <div className="mx-auto max-w-5xl">
+            <div className="text-center mb-16">
+              <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-sky-100 text-sky-500 mb-6 transform -rotate-6">
+                <BookOpen size={32} />
+              </div>
+              <h2 className="font-serif text-5xl font-black text-slate-800 mb-6">The Storybook Blog</h2>
+              <p className="text-xl text-slate-600 font-medium max-w-2xl mx-auto">Behind-the-scenes peeks, reading lists, and fun activities to share with your little ones.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {[
+                { 
+                  title: "10 Books That Make Perfect Bedtime Stories", 
+                  date: "October 12", 
+                  tag: "Book Lists", 
+                  color: "bg-purple-100 text-purple-700" 
+                },
+                {
+                  title: "Free Printable: Color Your Own Koala Mask!",
+                  date: "September 05",
+                  tag: "Activities",
+                  color: "bg-rose-100 text-rose-700"
+                },
+                { 
+                  title: "How I created the illustrations for Cuddles", 
+                  date: "August 18", 
+                  tag: "Behind the Scenes", 
+                  color: "bg-sky-100 text-sky-700" 
+                },
+                { 
+                  title: "Tips for reading aloud to energetic toddlers", 
+                  date: "July 22", 
+                  tag: "Parenting", 
+                  color: "bg-emerald-100 text-emerald-700" 
+                }
+              ].map((post, i) => (
+                <article key={i} className="bg-white p-8 rounded-[2rem] border-2 border-amber-50 hover:border-amber-200 transition-all duration-300 hover:shadow-lg group flex flex-col justify-between cursor-pointer">
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${post.color}`}>{post.tag}</span>
+                      <span className="text-sm font-bold text-slate-400">{post.date}</span>
+                    </div>
+                    <h3 className="font-serif text-3xl font-bold text-slate-800 mb-4 group-hover:text-sky-500 transition-colors leading-tight">
+                      {post.title}
+                    </h3>
+                  </div>
+                  <div className="mt-8 flex items-center font-bold text-slate-500 group-hover:text-sky-500">
+                    Read Post <Sparkles className="ml-2 w-4 h-4" />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
