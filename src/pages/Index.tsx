@@ -254,8 +254,8 @@ export default function Index() {
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
                 <img 
-                  src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1974&auto=format&fit=crop" 
-                  alt="Alora Swift in a bright room" 
+                  src="/aloraforweb.png" 
+                  alt="Alora Swift in study" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 />
               </div>
