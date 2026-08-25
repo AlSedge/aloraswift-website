@@ -47,7 +47,7 @@ export default function Footer() {
             <h4 className="mb-8 font-sans text-lg font-bold text-white">Explore</h4>
             <ul className="space-y-4 font-medium">
               <li>
-                <Link to="/books" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">📚 My Books</Link>
+                <Link to="/books" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">📚 My Children&apos;s Books</Link>
               </li>
               <li>
                 <button onClick={() => goToSection('reviews')} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">⭐ My Toy and Book Reviews</button>
