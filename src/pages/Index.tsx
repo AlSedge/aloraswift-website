@@ -30,6 +30,8 @@ const FALLBACK_POSTS = [
   },
 ];
 
+const WEB3FORMS_KEY = '83d75253-87c1-4e99-8652-d983928f1d38';
+
 export default function Index() {
   const [books, setBooks] = useState<SanityBook[]>([]);
   const [reviews, setReviews] = useState<SanityReview[]>([]);
@@ -37,6 +39,8 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -88,15 +92,36 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, [location.state]);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    const subject = encodeURIComponent('Newsletter signup — Alora Swift');
-    const body = encodeURIComponent(
-      `Hi Alora,\n\nPlease add ${email.trim()} to your newsletter list.\n\n(And yes, I'd love the free printable coloring book!)\n\nThanks!`
-    );
-    window.location.href = `mailto:hello@aloraswift.com?subject=${subject}&body=${body}`;
-    setSubscribed(true);
+    setSending(true);
+    setFormError(null);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          email: email.trim(),
+          subject: 'Newsletter signup — Alora Swift',
+          message: `Please add ${email.trim()} to the newsletter list (free printable coloring book requested).`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubscribed(true);
+      } else {
+        setFormError(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setFormError('Could not reach the signup service. Please try again or email hello@aloraswift.com.');
+    } finally {
+      setSending(false);
+    }
   };
 
   // Use the first returned book as the "Latest Release Spotlight"
@@ -439,8 +464,8 @@ export default function Index() {
               <div className="bg-white/95 rounded-[2rem] p-10 shadow-xl">
                 <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 mb-4">Thank you! 💌</h2>
                 <p className="text-xl text-slate-600 font-medium leading-relaxed">
-                  Your email app should have opened with a ready-to-send message. Hit send and I&apos;ll
-                  pop your free printable coloring book straight into your inbox!
+                  You&apos;re on the list! Watch your inbox for your free printable coloring book and
+                  all the latest book news.
                 </p>
               </div>
             ) : (
@@ -459,10 +484,19 @@ export default function Index() {
                     className="flex-grow rounded-full bg-white border-4 border-sky-300 px-8 py-5 text-slate-800 font-sans text-xl font-medium focus:outline-none focus:border-yellow-400 transition-colors shadow-lg placeholder:text-slate-400"
                     required
                   />
-                  <button type="submit" className="whitespace-nowrap rounded-full bg-yellow-400 px-10 py-5 font-sans text-xl font-black text-yellow-900 hover:bg-yellow-300 transition-all hover:-translate-y-1 shadow-lg hover:shadow-yellow-400/50">
-                    Send it!
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="whitespace-nowrap rounded-full bg-yellow-400 px-10 py-5 font-sans text-xl font-black text-yellow-900 hover:bg-yellow-300 transition-all hover:-translate-y-1 shadow-lg hover:shadow-yellow-400/50 disabled:opacity-60 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+                  >
+                    {sending ? 'Sending...' : 'Send it!'}
                   </button>
                 </form>
+                {formError && (
+                  <p className="font-sans text-yellow-200 font-bold mt-5 text-lg bg-yellow-900/30 rounded-full px-6 py-2 inline-block">
+                    {formError}
+                  </p>
+                )}
                 <p className="font-sans text-sky-100 font-medium mt-6 text-lg">No spam, just fun stuff. Unsubscribe anytime.</p>
               </>
             )}
