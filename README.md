@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+# Alora Swift — aloraswift.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The official website of **Alora Swift**, children's picture book author.
 
-Currently, two official plugins are available:
+- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4
+- **CMS:** Sanity (`2fs2ltni` / dataset `production`) — books, reviews, journal posts
+- **Deploy:** Vercel (auto-deploys from `main` on GitHub)
+- **Repo:** https://github.com/AlSedge/aloraswift-website
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Pages
 
-## React Compiler
+| Route | Page |
+|-------|------|
+| `/` | Home (hero, latest release, book grid, reviews, about, journal, newsletter) |
+| `/books` | All books |
+| `/books/:slug` | Book detail page (cover, synopsis, review quote, buy link) |
+| `/about` | Author story |
+| `/journal` | Storybook blog index (Sanity `journalPost`, teaser fallback) |
+| `/journal/:slug` | Blog post |
+| `/privacy`, `/terms`, `/disclosure` | Legal pages |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Local development
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # type-check + production build
+npm run preview    # serve the production build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Environment: `.env` needs
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_SANITY_PROJECT_ID=2fs2ltni
+VITE_SANITY_DATASET=production
+```
+
+## Content
+
+Content lives in the Sanity project (`2fs2ltni`, dataset `production`). The schema is defined in
+the sibling repo `alora-swift-studio` (`book`, `review`, `journalPost`). Run that studio locally
+with `npm run dev` to add/edit content; the site fetches it client-side.
+
+## SEO notes
+
+- `public/robots.txt` + `public/sitemap.xml` are static.
+- Per-route titles/descriptions/canonical/OG/JSON-LD are applied at runtime via `src/lib/seo.ts`.
+- **New book:** add its URL to `public/sitemap.xml` (or move the site to prerendering/SSG — the
+  long-term fix).
+- `vercel.json` rewrites every route to `/` so client-side routes survive refreshes (static files
+  like `robots.txt` still win, same as the Awakesol setup).

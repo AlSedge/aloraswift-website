@@ -1,1 +1,50 @@
 @import "tailwindcss";
+
+/* --- Custom animations ---
+   Tailwind v4 has no default for the blob / fade-in / slide-in classes
+   used across the site, so they're defined here. */
+
+@keyframes blob {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(30px, -50px) scale(1.1); }
+  66%  { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.animate-blob {
+  animation: blob 10s infinite;
+}
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in-from-bottom-8 {
+  from { opacity: 0; transform: translateY(2rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in,
+.slide-in-from-bottom-8 {
+  animation: fade-in 1s ease-out both, slide-in-from-bottom-8 1s ease-out both;
+}
+.fade-in {
+  animation: fade-in 1s ease-out both;
+}
+
+/* 3D card tilts used with group-hover: */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.group:hover .rotate-y-12 {
+  transform: rotateY(12deg);
+}
+.group:hover .rotate-y-6 {
+  transform: rotateY(6deg);
+}

@@ -1,31 +1,103 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import BookCard from '../components/BookCard';
 import { Sparkles, Star, BookOpen, Quote, Heart, Send } from 'lucide-react';
-import { fetchSanityBooks, fetchSanityReviews, SanityBook, SanityReview, urlFor } from '../lib/sanity';
+import { fetchSanityBooks, fetchSanityReviews, fetchJournalPosts, SanityBook, SanityReview, SanityJournalPost, urlFor } from '../lib/sanity';
+import { applyBookListJsonLd } from '../lib/seo';
+
+const FALLBACK_POSTS = [
+  {
+    title: '10 Books That Make Perfect Bedtime Stories',
+    tag: 'Book Lists',
+    color: 'bg-purple-100 text-purple-700',
+  },
+  {
+    title: 'Free Printable: Color Your Own Koala Mask!',
+    tag: 'Activities',
+    color: 'bg-rose-100 text-rose-700',
+  },
+  {
+    title: 'How I created the illustrations for Cuddles',
+    tag: 'Behind the Scenes',
+    color: 'bg-sky-100 text-sky-700',
+  },
+  {
+    title: 'Tips for reading aloud to energetic toddlers',
+    tag: 'Parenting',
+    color: 'bg-emerald-100 text-emerald-700',
+  },
+];
 
 export default function Index() {
   const [books, setBooks] = useState<SanityBook[]>([]);
   const [reviews, setReviews] = useState<SanityReview[]>([]);
+  const [journalPosts, setJournalPosts] = useState<SanityJournalPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
+    let cancelled = false;
     async function loadData() {
       try {
-        const [fetchedBooks, fetchedReviews] = await Promise.all([
+        const [fetchedBooks, fetchedReviews, fetchedPosts] = await Promise.all([
           fetchSanityBooks(),
-          fetchSanityReviews()
+          fetchSanityReviews(),
+          fetchJournalPosts(),
         ]);
+        if (cancelled) return;
         setBooks(fetchedBooks);
         setReviews(fetchedReviews);
+        setJournalPosts(fetchedPosts);
+        applyBookListJsonLd(
+          fetchedBooks.map((b) => ({
+            title: b.title,
+            slug: b.slug?.current || '',
+            coverUrl: b.coverImage ? urlFor(b.coverImage).width(600).url() : null,
+          }))
+        );
       } catch (error) {
-        console.error("Failed to fetch from Sanity:", error);
+        console.error('Failed to fetch from Sanity:', error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
     loadData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  // When arriving from another page with a section target (e.g. /#reviews),
+  // scroll to that section once the page has rendered.
+  useEffect(() => {
+    const target = (location.state as { scrollTo?: string } | null)?.scrollTo;
+    if (!target) return;
+    window.history.replaceState({}, '');
+    const timer = setTimeout(() => {
+      const element = document.getElementById(target);
+      if (element) {
+        const offset = 100;
+        const position = element.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: position, behavior: 'smooth' });
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [location.state]);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    const subject = encodeURIComponent('Newsletter signup — Alora Swift');
+    const body = encodeURIComponent(
+      `Hi Alora,\n\nPlease add ${email.trim()} to your newsletter list.\n\n(And yes, I'd love the free printable coloring book!)\n\nThanks!`
+    );
+    window.location.href = `mailto:hello@aloraswift.com?subject=${subject}&body=${body}`;
+    setSubscribed(true);
+  };
 
   // Use the first returned book as the "Latest Release Spotlight"
   const latestBook = books.length > 0 ? books[0] : null;
@@ -37,7 +109,7 @@ export default function Index() {
       <Navigation />
 
       <main className="flex-grow pt-24 md:pt-32">
-        
+
         {/* Hero Section */}
         <section className="relative px-6 py-20 md:py-32 overflow-hidden flex flex-col items-center justify-center text-center">
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -45,12 +117,12 @@ export default function Index() {
             <div className="absolute top-0 right-20 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-8 left-1/2 w-80 h-80 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
           </div>
-          
-          <div className="relative z-10 max-w-4xl mx-auto animate-in slide-in-from-bottom-8 duration-1000 fade-in">
+
+          <div className="relative z-10 max-w-4xl mx-auto animate-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-amber-100 text-amber-600 font-bold text-sm mb-8 transform -rotate-2">
-              <Star size={16} fill="currentColor" /> Bestselling Children&apos;s Author
+              <Star size={16} fill="currentColor" /> Children's Picture Book Author
             </div>
-            
+
             <h1 className="font-serif text-6xl md:text-8xl lg:text-[7rem] text-slate-800 font-black leading-[1.1] tracking-tight mb-8">
               Where imagination <br />
               <span className="text-sky-500 relative inline-block mt-2">
@@ -60,13 +132,13 @@ export default function Index() {
                 </svg>
               </span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-12 font-medium">
               Join the adventure with whimsical tales of bravery, friendship, and magic hidden in the most unexpected places.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
+              <button
                 onClick={() => document.getElementById('latest-release')?.scrollIntoView({ behavior: 'smooth' })}
                 className="inline-flex h-16 items-center justify-center rounded-full bg-sky-500 px-10 text-lg font-bold text-white shadow-xl shadow-sky-200 transition-all hover:-translate-y-1 hover:shadow-sky-300 hover:bg-sky-400"
               >
@@ -80,7 +152,7 @@ export default function Index() {
         <section id="latest-release" className="px-6 py-24">
           <div className="mx-auto max-w-7xl bg-white rounded-[3rem] p-8 md:p-12 lg:p-20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border-4 border-amber-50 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-amber-100 rounded-bl-full opacity-50 pointer-events-none"></div>
-            
+
             {loading ? (
               <p className="text-slate-500 text-center py-20 font-medium">Loading magical stories from Sanity...</p>
             ) : latestBook ? (
@@ -98,38 +170,38 @@ export default function Index() {
                       </div>
                     )}
                   </div>
-                  
+
                   {latestBook.isNewRelease && (
                     <div className="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center text-yellow-900 font-bold text-center p-2 shadow-lg transform rotate-12 z-20">
                       <span className="text-sm">NEW<br/>RELEASE!</span>
                     </div>
                   )}
                 </div>
-                
+
                 <div className="flex flex-col justify-center">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-100 text-rose-600 font-bold text-sm mb-6 w-fit transform -rotate-1">
-                    <Heart size={16} fill="currentColor" /> {latestBook.tagline || "An Outback Adventure"}
+                    <Heart size={16} fill="currentColor" /> {latestBook.tagline || 'An Outback Adventure'}
                   </div>
-                  
+
                   <h2 className="font-serif text-5xl md:text-6xl font-black text-slate-800 mb-6 leading-tight">{latestBook.title}</h2>
-                  
+
                   <div className="flex gap-1 text-yellow-400 mb-8">
                     {[1, 2, 3, 4, 5].map((star) => <Star key={star} size={24} fill="currentColor" />)}
-                    <span className="ml-3 text-lg font-bold text-slate-500 mt-0.5">Over 1,400+ happy kids!</span>
+                    <span className="ml-3 text-lg font-bold text-slate-500 mt-0.5">Loved by little readers everywhere!</span>
                   </div>
-                  
+
                   <p className="text-xl text-slate-600 leading-relaxed mb-6 font-medium whitespace-pre-wrap">
                     {latestBook.synopsis || "When a giant storm sweeps through the eucalyptus trees, little Cuddles, a fluffy blue-eyed koala bear, finds himself on the forest floor! Join him on a brave, silly, and heartwarming journey back up to the canopy, making new animal friends along the way."}
                   </p>
-                  
+
                   <div className="bg-sky-50 rounded-2xl p-6 mb-8 border border-sky-100 relative">
                     <Quote size={32} className="absolute -top-4 -left-4 text-sky-300 bg-[#FFFBF0] rounded-full p-1" />
-                      <p className="text-lg text-slate-700 italic font-medium">
-                        &quot;{latestBook.reviewQuote || "A beautiful story about resilience and friendship. My kids ask to read it every single night!"}&quot;
-                        <span className="block text-sm font-bold text-sky-600 mt-2">— {latestBook.reviewAuthor || "Sarah T., Mom of two"}</span>
-                      </p>
+                    <p className="text-lg text-slate-700 italic font-medium">
+                      &quot;{latestBook.reviewQuote || "A beautiful story about resilience and friendship. My kids ask to read it every single night!"}&quot;
+                      <span className="block text-sm font-bold text-sky-600 mt-2">— {latestBook.reviewAuthor || "Sarah T., Mom of two"}</span>
+                    </p>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-4">
                     {latestBook.buyLink && (
                       <a href={latestBook.buyLink} target="_blank" rel="noreferrer" className="inline-flex h-16 items-center justify-center rounded-full bg-rose-500 px-10 text-lg font-bold text-white shadow-xl shadow-rose-200 transition-all hover:-translate-y-1 hover:bg-rose-400 hover:shadow-rose-300">
@@ -141,6 +213,9 @@ export default function Index() {
                         Read an Excerpt
                       </a>
                     )}
+                    <Link to={`/books/${latestBook.slug?.current || ''}`} className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50">
+                      Book Details
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -158,33 +233,16 @@ export default function Index() {
                 <h2 className="font-serif text-5xl font-black text-slate-800 mb-4">More Magical Adventures</h2>
                 <p className="text-xl text-slate-600 font-medium max-w-xl">Explore the full collection of Alora&apos;s beloved picture books and early readers.</p>
               </div>
+              <Link to="/books" className="inline-flex items-center gap-2 font-bold text-rose-500 hover:text-rose-600 transition-colors">
+                Browse all books <Sparkles size={18} />
+              </Link>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-10">
               {otherBooks.map((book) => (
-                <div key={book._id} className="group cursor-pointer bg-white rounded-[2rem] p-6 shadow-sm border border-amber-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
-                  <div className="overflow-hidden rounded-2xl mb-6 aspect-square relative">
-                    <img 
-                      src={book.coverImage ? urlFor(book.coverImage).width(600).url() : "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1974&auto=format&fit=crop"} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    />
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-                  </div>
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider w-fit mb-3 bg-sky-100 text-sky-800`}>
-                    {book.ageRange || "All Ages"}
-                  </div>
-                  <h3 className="font-serif text-3xl font-bold text-slate-800 mb-3 group-hover:text-sky-500 transition-colors">{book.title}</h3>
-                  <p className="text-slate-600 font-medium leading-relaxed mb-6 flex-grow line-clamp-3">{book.synopsis}</p>
-                  
-                  {book.buyLink && (
-                    <a href={book.buyLink} target="_blank" rel="noreferrer" className="text-rose-500 font-bold hover:text-rose-600 mt-auto inline-flex items-center gap-2">
-                      Get your copy <Sparkles size={16} />
-                    </a>
-                  )}
-                </div>
+                <BookCard key={book._id} book={book} />
               ))}
-              
+
               {!loading && otherBooks.length === 0 && (
                 <p className="text-slate-500 col-span-3 font-medium">More books coming soon!</p>
               )}
@@ -201,7 +259,7 @@ export default function Index() {
                 <p className="text-xl text-slate-600 font-medium max-w-xl">Curated picks of my absolute favorite books, games, and toys for little ones.</p>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-10">
               {loading ? (
                 <p className="text-slate-500 font-medium text-center col-span-3 py-10">Loading recommendations...</p>
@@ -218,10 +276,11 @@ export default function Index() {
                   return (
                     <div key={review._id} className="group bg-white rounded-[2rem] p-6 shadow-sm border border-amber-50 flex flex-col hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                       <div className="overflow-hidden rounded-2xl mb-6 aspect-video relative">
-                        <img 
-                          src={review.image ? urlFor(review.image).width(600).url() : "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop"} 
-                          alt={review.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                        <img
+                          src={review.image ? urlFor(review.image).width(600).url() : "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop"}
+                          alt={review.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
                       <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 w-fit ${color}`}>
@@ -229,7 +288,7 @@ export default function Index() {
                       </div>
                       <h3 className="font-serif text-2xl font-bold text-slate-800 mb-3">{review.title}</h3>
                       <p className="text-slate-600 font-medium leading-relaxed mb-6 flex-grow">{review.description}</p>
-                      
+
                       {review.link && (
                         <a href={review.link} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center justify-center rounded-full bg-slate-100 px-6 text-sm font-bold text-slate-700 transition-all hover:-translate-y-1 hover:bg-yellow-400 hover:text-yellow-900 mt-auto">
                           View Item <Sparkles className="ml-2 w-4 h-4" />
@@ -249,14 +308,14 @@ export default function Index() {
         <section id="about" className="px-6 py-24 md:py-32 bg-amber-100 rounded-[4rem] mx-4 md:mx-8 mb-24 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
-          
+
           <div className="mx-auto max-w-6xl relative z-10 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
-                <img 
-                  src="/aloraforweb.png" 
-                  alt="Alora Swift in study" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                <img
+                  src="/aloraforweb.png"
+                  alt="Alora Swift in study"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
               <div className="absolute -bottom-8 -right-8 bg-white text-slate-800 p-6 rounded-[2rem] shadow-xl transform rotate-3">
@@ -265,31 +324,31 @@ export default function Index() {
                 </p>
               </div>
             </div>
-            
+
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-amber-600 font-bold text-sm mb-6 shadow-sm">
                 👋 Hello there!
               </div>
-              
+
               <h2 className="font-serif text-5xl md:text-6xl font-black text-slate-800 mb-8 leading-tight">
-                Hi&apos; I&apos;m Alora. I write books about <span className="text-rose-500">brave platypus&apos;</span> and <span className="text-sky-500">lost koala bears.</span>
+                Hi, I&apos;m Alora. I write books about <span className="text-rose-500">brave platypuses</span> and <span className="text-sky-500">lost koala bears.</span>
               </h2>
-              
+
               <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium mb-10">
-                  <p>
-                    Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child&apos;s eyes light up.
-                  </p>
-                  <p>
-                    Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
-                  </p>
                 <p>
-                  I live in a rural part of Ireland with my husband, kids are grown up and living their lives away, but we have a lovely golden retriever named Loki who thinks he&apos;s everyones friend.
+                  Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child&apos;s eyes light up.
+                </p>
+                <p>
+                  Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
+                </p>
+                <p>
+                  I live in a rural part of Ireland with my husband. Our kids are grown up and living their lives away, but we have a lovely golden retriever named Loki who thinks he&apos;s everyone&apos;s friend.
                 </p>
               </div>
-              
-              <a href="#" className="inline-flex h-16 items-center justify-center rounded-full bg-slate-800 px-10 text-lg font-bold text-white transition-all hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl">
+
+              <Link to="/about" className="inline-flex h-16 items-center justify-center rounded-full bg-slate-800 px-10 text-lg font-bold text-white transition-all hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl">
                 Read My Full Story
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -304,49 +363,60 @@ export default function Index() {
               <h2 className="font-serif text-5xl font-black text-slate-800 mb-6">The Storybook Blog</h2>
               <p className="text-xl text-slate-600 font-medium max-w-2xl mx-auto">Behind-the-scenes peeks, reading lists, and fun activities to share with your little ones.</p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
-              {[
-                { 
-                  title: "10 Books That Make Perfect Bedtime Stories", 
-                  date: "October 12", 
-                  tag: "Book Lists", 
-                  color: "bg-purple-100 text-purple-700" 
-                },
-                {
-                  title: "Free Printable: Color Your Own Koala Mask!",
-                  date: "September 05",
-                  tag: "Activities",
-                  color: "bg-rose-100 text-rose-700"
-                },
-                { 
-                  title: "How I created the illustrations for Cuddles", 
-                  date: "August 18", 
-                  tag: "Behind the Scenes", 
-                  color: "bg-sky-100 text-sky-700" 
-                },
-                { 
-                  title: "Tips for reading aloud to energetic toddlers", 
-                  date: "July 22", 
-                  tag: "Parenting", 
-                  color: "bg-emerald-100 text-emerald-700" 
-                }
-              ].map((post, i) => (
-                <article key={i} className="bg-white p-8 rounded-[2rem] border-2 border-amber-50 hover:border-amber-200 transition-all duration-300 hover:shadow-lg group flex flex-col justify-between cursor-pointer">
-                  <div>
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${post.color}`}>{post.tag}</span>
-                      <span className="text-sm font-bold text-slate-400">{post.date}</span>
+              {journalPosts.length > 0 ? (
+                journalPosts.slice(0, 4).map((post) => (
+                  <Link
+                    key={post._id}
+                    to={`/journal/${post.slug?.current || ''}`}
+                    className="bg-white p-8 rounded-[2rem] border-2 border-amber-50 hover:border-amber-200 transition-all duration-300 hover:shadow-lg group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className="px-4 py-1.5 rounded-full text-sm font-bold bg-sky-100 text-sky-700">{post.tag || 'Journal'}</span>
+                        {post.publishedAt && (
+                          <span className="text-sm font-bold text-slate-400">
+                            {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-serif text-3xl font-bold text-slate-800 mb-4 group-hover:text-sky-500 transition-colors leading-tight">
+                        {post.title}
+                      </h3>
+                      {post.excerpt && (
+                        <p className="text-slate-600 font-medium leading-relaxed line-clamp-3">{post.excerpt}</p>
+                      )}
                     </div>
-                    <h3 className="font-serif text-3xl font-bold text-slate-800 mb-4 group-hover:text-sky-500 transition-colors leading-tight">
-                      {post.title}
-                    </h3>
-                  </div>
-                  <div className="mt-8 flex items-center font-bold text-slate-500 group-hover:text-sky-500">
-                    Read Post <Sparkles className="ml-2 w-4 h-4" />
-                  </div>
-                </article>
-              ))}
+                    <div className="mt-8 flex items-center font-bold text-slate-500 group-hover:text-sky-500">
+                      Read Post <Sparkles className="ml-2 w-4 h-4" />
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                FALLBACK_POSTS.map((post) => (
+                  <article key={post.title} className="bg-white p-8 rounded-[2rem] border-2 border-amber-50 hover:border-amber-200 transition-all duration-300 hover:shadow-lg group flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${post.color}`}>{post.tag}</span>
+                        <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">Coming soon</span>
+                      </div>
+                      <h3 className="font-serif text-3xl font-bold text-slate-800 mb-4 leading-tight">
+                        {post.title}
+                      </h3>
+                    </div>
+                    <div className="mt-8 flex items-center font-bold text-slate-400">
+                      Full post coming soon <Sparkles className="ml-2 w-4 h-4" />
+                    </div>
+                  </article>
+                ))
+              )}
+            </div>
+
+            <div className="text-center mt-14">
+              <Link to="/journal" className="inline-flex h-14 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-8 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50">
+                Visit the Journal <Sparkles className="ml-2 h-5 w-5" />
+              </Link>
             </div>
           </div>
         </section>
@@ -359,29 +429,43 @@ export default function Index() {
           <div className="absolute bottom-10 left-10 text-sky-300 opacity-50 transform -rotate-12">
             <Star size={100} fill="currentColor" />
           </div>
-          
+
           <div className="mx-auto max-w-3xl text-center relative z-10">
             <div className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-white text-rose-500 mb-8 transform rotate-6 shadow-xl">
               <Send size={40} />
             </div>
-            
-            <h2 className="font-serif text-5xl md:text-6xl font-black text-white mb-6">Say Hello!</h2>
-            <p className="text-2xl text-sky-50 mb-12 font-medium leading-relaxed">
-              Sign up for my latest news and get a <span className="font-bold text-yellow-300">FREE printable coloring book</span> instantly! Plus updates on new books.
-            </p>
-            
-            <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto" onSubmit={(e) => { e.preventDefault(); alert('Yay! Welcome to the club!'); }}>
-              <input 
-                type="email" 
-                placeholder="Enter your email address" 
-                className="flex-grow rounded-full bg-white border-4 border-sky-300 px-8 py-5 text-slate-800 font-sans text-xl font-medium focus:outline-none focus:border-yellow-400 transition-colors shadow-lg placeholder:text-slate-400"
-                required
-              />
-              <button type="submit" className="whitespace-nowrap rounded-full bg-yellow-400 px-10 py-5 font-sans text-xl font-black text-yellow-900 hover:bg-yellow-300 transition-all hover:-translate-y-1 shadow-lg hover:shadow-yellow-400/50">
-                Send it!
-              </button>
-            </form>
-            <p className="font-sans text-sky-100 font-medium mt-6 text-lg">No spam, just fun stuff. Unsubscribe anytime.</p>
+
+            {subscribed ? (
+              <div className="bg-white/95 rounded-[2rem] p-10 shadow-xl">
+                <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 mb-4">Thank you! 💌</h2>
+                <p className="text-xl text-slate-600 font-medium leading-relaxed">
+                  Your email app should have opened with a ready-to-send message. Hit send and I&apos;ll
+                  pop your free printable coloring book straight into your inbox!
+                </p>
+              </div>
+            ) : (
+              <>
+                <h2 className="font-serif text-5xl md:text-6xl font-black text-white mb-6">Say Hello!</h2>
+                <p className="text-2xl text-sky-50 mb-12 font-medium leading-relaxed">
+                  Sign up for my latest news and get a <span className="font-bold text-yellow-300">FREE printable coloring book</span> instantly! Plus updates on new books.
+                </p>
+
+                <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto" onSubmit={handleSubscribe}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="flex-grow rounded-full bg-white border-4 border-sky-300 px-8 py-5 text-slate-800 font-sans text-xl font-medium focus:outline-none focus:border-yellow-400 transition-colors shadow-lg placeholder:text-slate-400"
+                    required
+                  />
+                  <button type="submit" className="whitespace-nowrap rounded-full bg-yellow-400 px-10 py-5 font-sans text-xl font-black text-yellow-900 hover:bg-yellow-300 transition-all hover:-translate-y-1 shadow-lg hover:shadow-yellow-400/50">
+                    Send it!
+                  </button>
+                </form>
+                <p className="font-sans text-sky-100 font-medium mt-6 text-lg">No spam, just fun stuff. Unsubscribe anytime.</p>
+              </>
+            )}
           </div>
         </section>
 
