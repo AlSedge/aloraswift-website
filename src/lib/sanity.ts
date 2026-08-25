@@ -93,6 +93,7 @@ export interface SanityAboutFact {
 
 export interface SanityAbout {
   headline: string;
+  homeHeading: string;
   intro: any;
   photo: any;
   facts: SanityAboutFact[];
@@ -101,6 +102,6 @@ export interface SanityAbout {
 }
 
 export async function fetchAbout(): Promise<SanityAbout | null> {
-  const query = `*[_type == "aboutPage"][0] { headline, intro, photo, facts, ctaTitle, ctaText }`;
+  const query = `*[_type == "aboutPage"][0] { headline, homeHeading, intro, photo, facts, ctaTitle, ctaText }`;
   return await client.fetch(query);
 }

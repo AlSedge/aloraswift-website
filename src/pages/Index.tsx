@@ -4,7 +4,8 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import BookCard from '../components/BookCard';
 import { Sparkles, Star, BookOpen, Quote, Heart, Send } from 'lucide-react';
-import { fetchSanityBooks, fetchSanityReviews, fetchJournalPosts, SanityBook, SanityReview, SanityJournalPost, urlFor } from '../lib/sanity';
+import { PortableText } from '@portabletext/react';
+import { fetchSanityBooks, fetchSanityReviews, fetchJournalPosts, fetchAbout, SanityBook, SanityReview, SanityJournalPost, SanityAbout, urlFor } from '../lib/sanity';
 import { applyBookListJsonLd } from '../lib/seo';
 
 const FALLBACK_POSTS = [
@@ -36,6 +37,7 @@ export default function Index() {
   const [books, setBooks] = useState<SanityBook[]>([]);
   const [reviews, setReviews] = useState<SanityReview[]>([]);
   const [journalPosts, setJournalPosts] = useState<SanityJournalPost[]>([]);
+  const [about, setAbout] = useState<SanityAbout | null>(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -47,15 +49,17 @@ export default function Index() {
     let cancelled = false;
     async function loadData() {
       try {
-        const [fetchedBooks, fetchedReviews, fetchedPosts] = await Promise.all([
+        const [fetchedBooks, fetchedReviews, fetchedPosts, fetchedAbout] = await Promise.all([
           fetchSanityBooks(),
           fetchSanityReviews(),
           fetchJournalPosts(),
+          fetchAbout(),
         ]);
         if (cancelled) return;
         setBooks(fetchedBooks);
         setReviews(fetchedReviews);
         setJournalPosts(fetchedPosts);
+        setAbout(fetchedAbout);
         applyBookListJsonLd(
           fetchedBooks.map((b) => ({
             title: b.title,
@@ -338,7 +342,7 @@ export default function Index() {
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
                 <img
-                  src="/aloraforweb.png"
+                  src={about?.photo ? urlFor(about.photo).width(1000).url() : "/aloraforweb.png"}
                   alt="Alora Swift in study"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -356,20 +360,32 @@ export default function Index() {
               </div>
 
               <h2 className="font-serif text-5xl md:text-6xl font-black text-slate-800 mb-8 leading-tight">
-                Hi, I&apos;m Alora. I write books about <span className="text-rose-500">brave platypuses</span> and <span className="text-sky-500">lost koala bears.</span>
+                {about?.homeHeading ? (
+                  about.homeHeading
+                ) : (
+                  <>
+                    Hi, I&apos;m Alora. I write books about <span className="text-rose-500">brave platypuses</span> and <span className="text-sky-500">lost koala bears.</span>
+                  </>
+                )}
               </h2>
 
-              <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium mb-10">
-                <p>
-                  Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child&apos;s eyes light up.
-                </p>
-                <p>
-                  Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
-                </p>
-                <p>
-                  I live in a rural part of Ireland with my husband. Our kids are grown up and living their lives away, but we have a lovely golden retriever named Loki who thinks he&apos;s everyone&apos;s friend.
-                </p>
-              </div>
+              {about?.intro ? (
+                <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium mb-10">
+                  <PortableText value={about.intro} />
+                </div>
+              ) : (
+                <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium mb-10">
+                  <p>
+                    Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child&apos;s eyes light up.
+                  </p>
+                  <p>
+                    Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted like cotton candy?&quot;).
+                  </p>
+                  <p>
+                    I live in a rural part of Ireland with my husband. Our kids are grown up and living their lives away, but we have a lovely golden retriever named Loki who thinks he&apos;s everyone&apos;s friend.
+                  </p>
+                </div>
+              )}
 
               <Link to="/about" className="inline-flex h-16 items-center justify-center rounded-full bg-slate-800 px-10 text-lg font-bold text-white transition-all hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl">
                 Read My Full Story
