@@ -50,7 +50,7 @@ export default function Footer() {
                 <Link to="/books" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">📚 My Books</Link>
               </li>
               <li>
-                <button onClick={() => goToSection('reviews')} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">⭐ My Reviews</button>
+                <button onClick={() => goToSection('reviews')} className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">⭐ My Toy and Book Reviews</button>
               </li>
               <li>
                 <Link to="/journal" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">🎨 Journal</Link>

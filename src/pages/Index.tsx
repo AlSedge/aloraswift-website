@@ -280,7 +280,7 @@ export default function Index() {
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
               <div>
-                <h2 className="font-serif text-5xl font-black text-slate-800 mb-4">My Reviews & Recommendations</h2>
+                <h2 className="font-serif text-5xl font-black text-slate-800 mb-4">My Toy and Book Reviews</h2>
                 <p className="text-xl text-slate-600 font-medium max-w-xl">Curated picks of my absolute favorite books, games, and toys for little ones.</p>
               </div>
             </div>

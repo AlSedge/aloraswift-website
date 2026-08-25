@@ -58,7 +58,7 @@ export default function Navigation() {
         <nav className="hidden md:block">
           <ul className="flex items-center gap-8 font-sans text-[15px] font-bold text-slate-600">
             <li><Link to="/books" className="hover:text-sky-500 transition-colors">My Books</Link></li>
-            <li><button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">My Reviews</button></li>
+            <li><button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">Reviews</button></li>
             <li><Link to="/about" className="hover:text-sky-500 transition-colors">About</Link></li>
             <li><Link to="/journal" className="hover:text-sky-500 transition-colors">Journal</Link></li>
             <li>
@@ -84,7 +84,7 @@ export default function Navigation() {
         <div className={`fixed inset-0 z-40 bg-amber-50 transition-opacity duration-300 md:hidden flex flex-col justify-center items-center ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
           <nav className="flex flex-col items-center gap-10 font-serif text-4xl font-bold text-slate-800">
             <Link to="/books" onClick={closeMenu} className="hover:text-sky-500 transition-colors">My Books</Link>
-            <button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">My Reviews</button>
+            <button onClick={() => handleScrollTo('reviews')} className="hover:text-sky-500 transition-colors">My Toy and Book Reviews</button>
             <Link to="/about" onClick={closeMenu} className="hover:text-sky-500 transition-colors">About</Link>
             <Link to="/journal" onClick={closeMenu} className="hover:text-sky-500 transition-colors">Journal</Link>
             <button
