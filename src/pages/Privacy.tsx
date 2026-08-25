@@ -34,8 +34,8 @@ export default function Privacy() {
                   This website, <span className="font-bold text-slate-800">aloraswift.com</span>, is
                   the personal author site of Alora Swift, a children&apos;s book author. If you have
                   any questions about this policy, you can email{' '}
-                  <a href="mailto:hello@aloraswift.com" className="text-sky-500 font-bold hover:underline">
-                    hello@aloraswift.com
+                  <a href="mailto:alora@aloraswift.com" className="text-sky-500 font-bold hover:underline">
+                    alora@aloraswift.com
                   </a>.
                 </p>
               </Section>
@@ -88,8 +88,8 @@ export default function Privacy() {
                 <p>
                   You may ask us at any time what personal information we hold about you, ask us to
                   correct or delete it, or ask us to stop using it. Just email{' '}
-                  <a href="mailto:hello@aloraswift.com" className="text-sky-500 font-bold hover:underline">
-                    hello@aloraswift.com
+                  <a href="mailto:alora@aloraswift.com" className="text-sky-500 font-bold hover:underline">
+                    alora@aloraswift.com
                   </a>{' '}
                   and we&apos;ll take care of it.
                 </p>

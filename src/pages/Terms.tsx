@@ -70,8 +70,8 @@ export default function Terms() {
               <Section title="Contact">
                 <p>
                   Questions about these terms? Email{' '}
-                  <a href="mailto:hello@aloraswift.com" className="text-sky-500 font-bold hover:underline">
-                    hello@aloraswift.com
+                  <a href="mailto:alora@aloraswift.com" className="text-sky-500 font-bold hover:underline">
+                    alora@aloraswift.com
                   </a>.
                 </p>
               </Section>

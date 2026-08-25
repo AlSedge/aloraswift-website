@@ -118,7 +118,7 @@ export default function Index() {
         setFormError(data.message || 'Something went wrong. Please try again.');
       }
     } catch {
-      setFormError('Could not reach the signup service. Please try again or email hello@aloraswift.com.');
+      setFormError('Could not reach the signup service. Please try again or email alora@aloraswift.com.');
     } finally {
       setSending(false);
     }

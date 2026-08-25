@@ -34,7 +34,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="mailto:hello@aloraswift.com"
+                href="mailto:alora@aloraswift.com"
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-800 text-sky-200 hover:bg-emerald-500 hover:text-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/50"
                 aria-label="Email Alora"
               >
