@@ -464,9 +464,17 @@ export default function Index() {
               <div className="bg-white/95 rounded-[2rem] p-10 shadow-xl">
                 <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 mb-4">Thank you! 💌</h2>
                 <p className="text-xl text-slate-600 font-medium leading-relaxed">
-                  You&apos;re on the list! Watch your inbox for your free printable coloring book and
-                  all the latest book news.
+                  You&apos;re on the list! Your free printable coloring book is ready — grab it
+                  below. Watch your inbox for all the latest book news too.
                 </p>
+                <a
+                  href="/free-coloring-book.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-8 inline-flex h-14 items-center justify-center rounded-full bg-rose-500 px-8 text-lg font-bold text-white shadow-xl shadow-rose-200 transition-all hover:-translate-y-1 hover:bg-rose-400"
+                >
+                  Download Your Free Coloring Book 🖍️
+                </a>
               </div>
             ) : (
               <>
