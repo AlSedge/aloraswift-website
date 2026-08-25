@@ -1,9 +1,61 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PortableText } from '@portabletext/react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import { Heart, Sparkles, BookOpen, Star } from 'lucide-react';
+import { fetchAbout, SanityAbout, urlFor } from '../lib/sanity';
+
+const FALLBACK_INTRO = [
+  'Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child\u2019s eyes light up \u2014 and I never forgot it.',
+  'Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life\u2019s biggest questions (like \u201cwhat if clouds tasted like cotton candy?\u201d).',
+  'My stories are full of brave platypuses, lost koala bears, and little heroes who find magic hiding in the most unexpected places \u2014 because that\u2019s what childhood feels like when you\u2019re paying attention.',
+];
+
+const FALLBACK_FACTS = [
+  {
+    icon: <BookOpen size={28} />,
+    color: 'bg-sky-100 text-sky-600',
+    title: 'Teacher first',
+    text: 'A decade of kindergarten storytimes taught me what makes a book magical for little listeners.',
+  },
+  {
+    icon: <Star size={28} />,
+    color: 'bg-rose-100 text-rose-500',
+    title: 'Characters with heart',
+    text: 'Every hero in my books faces a big scary problem \u2014 and finds brave, silly, kind ways through it.',
+  },
+  {
+    icon: <Heart size={28} />,
+    color: 'bg-amber-100 text-amber-600',
+    title: 'Home is Ireland',
+    text: 'I live in rural Ireland with my husband. Our kids are grown and living their own adventures, and we share our home with Loki, a golden retriever who thinks he\u2019s everyone\u2019s friend.',
+  },
+];
 
 export default function About() {
+  const [about, setAbout] = useState<SanityAbout | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchAbout()
+      .then((data) => {
+        if (!cancelled) setAbout(data);
+      })
+      .catch((error) => console.error('Failed to fetch about page:', error));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const headline = about?.headline || 'About Alora Swift';
+  const photoUrl = about?.photo ? urlFor(about.photo).width(1000).url() : '/aloraforweb.png';
+  const facts = about?.facts?.length
+    ? about.facts.map((f, i) => ({ ...FALLBACK_FACTS[i % FALLBACK_FACTS.length], title: f.title, text: f.text }))
+    : FALLBACK_FACTS;
+  const ctaTitle = about?.ctaTitle || 'Ready to meet Cuddles & Penny?';
+  const ctaText = about?.ctaText || "Jump into the adventures and find your family's new favourite bedtime story.";
+
   return (
     <div className="min-h-screen bg-[#FFFBF0] font-sans selection:bg-rose-200 selection:text-slate-900 flex flex-col">
       <Navigation />
@@ -19,7 +71,7 @@ export default function About() {
               <Heart size={16} fill="currentColor" /> Nice to meet you!
             </div>
             <h1 className="font-serif text-6xl md:text-7xl font-black text-slate-800 leading-[1.1] tracking-tight mb-8">
-              About <span className="text-sky-500">Alora Swift</span>
+              {headline}
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
               Storyteller, former kindergarten teacher, and big kid at heart — I write books that
@@ -34,7 +86,7 @@ export default function About() {
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
                 <img
-                  src="/aloraforweb.png"
+                  src={photoUrl}
                   alt="Alora Swift in her study"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -50,23 +102,17 @@ export default function About() {
               <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 mb-8 leading-tight">
                 From the classroom to <span className="text-rose-500">the storybook page</span>
               </h2>
-              <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium">
-                <p>
-                  Before I was an author, I was a kindergarten teacher who loved storytime more than
-                  anything else in the world. I saw firsthand how a good book could make a
-                  child&apos;s eyes light up — and I never forgot it.
-                </p>
-                <p>
-                  Now, I spend my spare time dreaming up silly characters, painting colorful worlds,
-                  and trying to answer life&apos;s biggest questions (like &quot;what if clouds tasted
-                  like cotton candy?&quot;).
-                </p>
-                <p>
-                  My stories are full of brave platypuses, lost koala bears, and little heroes who
-                  find magic hiding in the most unexpected places — because that&apos;s what childhood
-                  feels like when you&apos;re paying attention.
-                </p>
-              </div>
+              {about?.intro ? (
+                <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium">
+                  <PortableText value={about.intro} />
+                </div>
+              ) : (
+                <div className="space-y-6 text-xl text-slate-700 leading-relaxed font-medium">
+                  {FALLBACK_INTRO.map((paragraph) => (
+                    <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -74,26 +120,7 @@ export default function About() {
         {/* Three little facts */}
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl grid md:grid-cols-3 gap-10">
-            {[
-              {
-                icon: <BookOpen size={28} />,
-                color: 'bg-sky-100 text-sky-600',
-                title: 'Teacher first',
-                text: 'A decade of kindergarten storytimes taught me what makes a book magical for little listeners.',
-              },
-              {
-                icon: <Star size={28} />,
-                color: 'bg-rose-100 text-rose-500',
-                title: 'Characters with heart',
-                text: 'Every hero in my books faces a big scary problem — and finds brave, silly, kind ways through it.',
-              },
-              {
-                icon: <Heart size={28} />,
-                color: 'bg-amber-100 text-amber-600',
-                title: 'Home is Ireland',
-                text: 'I live in rural Ireland with my husband. Our kids are grown and living their own adventures, and we share our home with Loki, a golden retriever who thinks he\u2019s everyone\u2019s friend.',
-              },
-            ].map((item) => (
+            {facts.map((item) => (
               <div key={item.title} className="bg-white rounded-[2rem] p-8 shadow-sm border border-amber-50">
                 <div className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl mb-6 transform -rotate-6 ${item.color}`}>
                   {item.icon}
@@ -112,10 +139,10 @@ export default function About() {
               <Sparkles size={90} fill="currentColor" />
             </div>
             <h2 className="font-serif text-4xl md:text-5xl font-black text-white mb-6 relative z-10">
-              Ready to meet Cuddles &amp; Penny?
+              {ctaTitle}
             </h2>
             <p className="text-2xl text-sky-50 font-medium mb-10 relative z-10">
-              Jump into the adventures and find your family&apos;s new favourite bedtime story.
+              {ctaText}
             </p>
             <Link
               to="/books"

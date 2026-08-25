@@ -84,3 +84,23 @@ export async function fetchJournalPostBySlug(slug: string): Promise<SanityJourna
   }`;
   return await client.fetch(query, { slug });
 }
+
+// --- ABOUT PAGE (singleton) ---
+export interface SanityAboutFact {
+  title: string;
+  text: string;
+}
+
+export interface SanityAbout {
+  headline: string;
+  intro: any;
+  photo: any;
+  facts: SanityAboutFact[];
+  ctaTitle: string;
+  ctaText: string;
+}
+
+export async function fetchAbout(): Promise<SanityAbout | null> {
+  const query = `*[_type == "aboutPage"][0] { headline, intro, photo, facts, ctaTitle, ctaText }`;
+  return await client.fetch(query);
+}
