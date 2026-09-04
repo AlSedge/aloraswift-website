@@ -42,9 +42,9 @@ const ROUTE_META: Record<string, SeoMeta> = {
     jsonLd: [webSiteJsonLd, authorJsonLd],
   },
   '/books': {
-    title: "Books by Alora Swift | Picture Books & Early Readers",
+    title: "Books by Alora Swift | Children's & Senior Books",
     description:
-      "Explore the full collection of Alora Swift's picture books and early readers — stories about brave platypuses, lost koala bears, and first baking adventures.",
+      "Browse the books of Alora Swift — whimsical picture books and early readers for children, plus quizzes and brain games for seniors.",
   },
   '/books/:slug': {
     title: 'Book | Alora Swift',

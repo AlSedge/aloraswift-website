@@ -26,11 +26,12 @@ export interface SanityBook {
   buyLink: string | null;
   excerptLink: string | null;
   ageRange: string | null;
+  category: string;
   isNewRelease: boolean;
 }
 
 const BOOK_PROJECTION = `_id, title, slug, coverImage, tagline, synopsis,
-  reviewQuote, reviewAuthor, buyLink, excerptLink, ageRange, isNewRelease`;
+  reviewQuote, reviewAuthor, buyLink, excerptLink, ageRange, category, isNewRelease`;
 
 export async function fetchSanityBooks(): Promise<SanityBook[]> {
   const query = `*[_type == "book"] | order(publishedAt desc) { ${BOOK_PROJECTION} }`;
