@@ -128,10 +128,13 @@ export default function Index() {
     }
   };
 
-  // Use the first returned book as the "Latest Release Spotlight"
-  const latestBook = books.length > 0 ? books[0] : null;
-  // Use the rest of the books for the grid
-  const otherBooks = books.length > 1 ? books.slice(1) : [];
+  // The homepage features the children's collection only; senior books
+  // live on the /books page under their own sub-section.
+  const childrensBooks = books.filter((b) => (b.category || "Children's Books") === "Children's Books");
+  // Use the first children's book as the "Latest Release Spotlight"
+  const latestBook = childrensBooks.length > 0 ? childrensBooks[0] : null;
+  // Use the rest of the children's books for the grid
+  const otherBooks = childrensBooks.length > 1 ? childrensBooks.slice(1) : [];
 
   return (
     <div className="min-h-screen bg-[#FFFBF0] font-sans selection:bg-rose-200 selection:text-slate-900 flex flex-col">

@@ -22,7 +22,12 @@ export default function BookDetail() {
         const [found, all] = await Promise.all([fetchBookBySlug(slug), fetchSanityBooks()]);
         if (cancelled) return;
         setBook(found);
-        setOtherBooks(all.filter((b) => b.slug?.current !== slug).slice(0, 3));
+        const foundCategory = found?.category || "Children's Books";
+        setOtherBooks(
+          all
+            .filter((b) => b.slug?.current !== slug && (b.category || "Children's Books") === foundCategory)
+            .slice(0, 3)
+        );
       } catch (error) {
         console.error('Failed to fetch book:', error);
       } finally {
