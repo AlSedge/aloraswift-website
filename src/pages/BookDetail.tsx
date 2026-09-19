@@ -47,6 +47,11 @@ export default function BookDetail() {
     }
   }, [book, slug]);
 
+  // Which shelf this book belongs to — children's hub vs grown-up hub
+  const isChildrens = (book?.category || "Children's Books") === "Children's Books";
+  const hubPath = isChildrens ? '/books' : '/senior-books';
+  const hubLabel = isChildrens ? 'Books' : 'Books for Grown-Ups';
+
   return (
     <div className="min-h-screen bg-[#FFFBF0] font-sans selection:bg-rose-200 selection:text-slate-900 flex flex-col">
       <Navigation />
@@ -58,7 +63,7 @@ export default function BookDetail() {
             <nav className="mb-10 flex items-center gap-2 font-bold text-sm text-slate-400">
               <Link to="/" className="hover:text-sky-500 transition-colors">Home</Link>
               <span>/</span>
-              <Link to="/books" className="hover:text-sky-500 transition-colors">Books</Link>
+              <Link to={hubPath} className="hover:text-sky-500 transition-colors">{hubLabel}</Link>
               {book && (<><span>/</span><span className="text-slate-600">{book.title}</span></>)}
             </nav>
 
@@ -99,12 +104,12 @@ export default function BookDetail() {
                           {[1, 2, 3, 4, 5].map((star) => <Star key={star} size={24} fill="currentColor" />)}
                         </div>
                         <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-100 text-sky-800">
-                          Ages {book.ageRange || '3-6'}
+                          {isChildrens ? `Ages ${book.ageRange || '3-6'}` : book.category || 'For Grown-Ups'}
                         </span>
                       </div>
 
                       <p className="text-xl text-slate-600 leading-relaxed mb-6 font-medium whitespace-pre-wrap">
-                        {book.synopsis || "A heartwarming tale of friendship, courage, and finding your way home — perfect for little readers (and the grown-ups reading to them)."}
+                        {book.synopsis || (isChildrens ? "A heartwarming tale of friendship, courage, and finding your way home — perfect for little readers (and the grown-ups reading to them)." : "A book by Alora Swift.")}
                       </p>
 
                       {book.reviewQuote && (
@@ -141,10 +146,10 @@ export default function BookDetail() {
                           </a>
                         )}
                         <Link
-                          to="/books"
+                          to={hubPath}
                           className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
                         >
-                          All Books
+                          {isChildrens ? 'All Books' : 'All Grown-Up Books'}
                         </Link>
                       </div>
                     </div>

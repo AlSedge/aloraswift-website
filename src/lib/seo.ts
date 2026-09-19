@@ -42,9 +42,14 @@ const ROUTE_META: Record<string, SeoMeta> = {
     jsonLd: [webSiteJsonLd, authorJsonLd],
   },
   '/books': {
-    title: "Books by Alora Swift | Children's & Senior Books",
+    title: "Children's Picture Books by Alora Swift",
     description:
-      "Browse the books of Alora Swift — whimsical picture books and early readers for children, plus quizzes and brain games for seniors.",
+      "Whimsical picture books and early readers for little ones by Alora Swift — bedtime stories, animal adventures and read-aloud favourites for ages 3-7.",
+  },
+  '/senior-books': {
+    title: 'Books for Grown-Ups | Quizzes & Brain Games by Alora Swift',
+    description:
+      'Nostalgia quizzes, brain games and light reads for grown-ups — books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
   },
   '/books/:slug': {
     title: 'Book | Alora Swift',

@@ -15,6 +15,7 @@ async function q(query) {
 const STATIC_ROUTES = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/books', priority: '0.9', changefreq: 'weekly' },
+  { path: '/senior-books', priority: '0.6', changefreq: 'monthly' },
   { path: '/about', priority: '0.7', changefreq: 'monthly' },
   { path: '/journal', priority: '0.7', changefreq: 'weekly' },
   { path: '/disclosure', priority: '0.3', changefreq: 'yearly' },

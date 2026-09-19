@@ -21,10 +21,16 @@ const DEFAULT_DESC =
 
 const STATIC_PAGES = {
   '/books': {
-    title: "Books by Alora Swift | Children's & Senior Books",
-    description: 'Browse the books of Alora Swift — whimsical picture books and early readers for children, plus quizzes and brain games for seniors.',
-    heading: 'Stories for Every Age',
-    intro: 'Whimsical picture books for little readers, and brain-teasers for grown-ups — browse each collection below.',
+    title: "Children's Picture Books by Alora Swift",
+    description: 'Whimsical picture books and early readers for little ones by Alora Swift — bedtime stories, animal adventures and read-aloud favourites for ages 3-7.',
+    heading: 'Picture Books for Little Readers',
+    intro: 'Whimsical animal adventures, bedtime stories and read-aloud favourites for ages 3-7 — every one made to be read together.',
+  },
+  '/senior-books': {
+    title: 'Books for Grown-Ups | Quizzes & Brain Games by Alora Swift',
+    description: 'Nostalgia quizzes, brain games and light reads for grown-ups — books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
+    heading: 'Books for Grown-Ups',
+    intro: 'Nostalgia quizzes, brain games and light reads — for parents, grandparents and anyone who likes to keep their mind busy.',
   },
   '/about': {
     title: "About Alora Swift | Children's Book Author",
@@ -168,7 +174,8 @@ async function main() {
       ...homeBooks.map((b) => `<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.synopsis ? ` — ${esc(String(b.synopsis).slice(0, 160))}` : ''}</li>`),
       '</ul>',
       '<h2>Explore</h2><ul>',
-      '<li><a href="/books">All books (children\'s &amp; senior)</a></li>',
+      '<li><a href="/books">Children\'s picture books</a></li>',
+      '<li><a href="/senior-books">Books for grown-ups</a></li>',
       '<li><a href="/journal">The Storybook Blog</a></li>',
       '<li><a href="/about">About Alora Swift</a></li>',
       '</ul>',
@@ -184,8 +191,12 @@ async function main() {
     let body = [`<h1>${esc(meta.heading)}</h1>`, `<p>${esc(meta.intro)}</p>`];
     let jsonLd = { '@context': 'https://schema.org', '@type': 'WebPage', name: meta.heading, description: meta.description, url: SITE + route };
 
+    const CHILDRENS_CAT = "Children's Books";
+    const childrensBooks = books.filter((b) => (b.category || CHILDRENS_CAT) === CHILDRENS_CAT);
+    const grownUpBooks = books.filter((b) => (b.category || CHILDRENS_CAT) !== CHILDRENS_CAT);
+
     if (route === '/books') {
-      const cats = ["Children's Books", 'Senior Books'];
+      const cats = [CHILDRENS_CAT];
       const items = [];
       for (const cat of cats) {
         const list = books.filter((b) => (b.category || "Children's Books") === cat);
@@ -197,10 +208,27 @@ async function main() {
         }
         body.push('</ul>');
       }
-      body.push('<p><a href="/journal">Read the Storybook Blog</a></p>');
+      body.push('<p><a href="/senior-books">Looking for books for grown-ups?</a> · <a href="/journal">Read the Storybook Blog</a></p>');
       jsonLd = [
-        { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Books by Alora Swift', description: meta.description, url: SITE + route },
-        { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Books by Alora Swift', itemListElement: items },
+        { '@context': 'https://schema.org', '@type': 'CollectionPage', name: "Children's Picture Books by Alora Swift", description: meta.description, url: SITE + route },
+        { '@context': 'https://schema.org', '@type': 'ItemList', name: "Children's Picture Books by Alora Swift", itemListElement: items },
+      ];
+    }
+
+    if (route === '/senior-books') {
+      const items = [];
+      if (grownUpBooks.length) {
+        body.push('<h2>Books for Grown-Ups</h2><ul>');
+        for (const b of grownUpBooks) {
+          body.push(`<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.tagline ? ` — ${esc(b.tagline)}` : ''}</li>`);
+          items.push({ '@type': 'ListItem', position: items.length + 1, name: b.title, url: bookUrl(b.slug) });
+        }
+        body.push('</ul>');
+      }
+      body.push('<p><a href="/books">Browse the children&apos;s picture books</a></p>');
+      jsonLd = [
+        { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Books for Grown-Ups', description: meta.description, url: SITE + route },
+        { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Books for Grown-Ups', itemListElement: items },
       ];
     }
 
@@ -238,7 +266,7 @@ async function main() {
       b.synopsis ? `<p>${esc(b.synopsis)}</p>` : '',
       b.ageRange ? `<p>Ages: ${esc(b.ageRange)}</p>` : '',
       b.buyLink ? `<p><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy the book</a></p>` : '',
-      `<p><a href="/books">Back to all books</a></p>`,
+      `<p><a href="${(b.category || "Children\'s Books") === "Children\'s Books" ? '/books' : '/senior-books'}">Back to all books</a></p>`,
       '</article>',
     ].filter(Boolean).join('\n');
     write(`/books/${b.slug}`, buildHtml(template, {
