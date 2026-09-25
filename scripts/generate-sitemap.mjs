@@ -18,6 +18,7 @@ const STATIC_ROUTES = [
   { path: '/senior-books', priority: '0.6', changefreq: 'monthly' },
   { path: '/about', priority: '0.7', changefreq: 'monthly' },
   { path: '/journal', priority: '0.7', changefreq: 'weekly' },
+  { path: '/free-coloring-book', priority: '0.8', changefreq: 'monthly' },
   { path: '/disclosure', priority: '0.3', changefreq: 'yearly' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly' },
   { path: '/terms', priority: '0.3', changefreq: 'yearly' },

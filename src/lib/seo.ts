@@ -71,6 +71,11 @@ const ROUTE_META: Record<string, SeoMeta> = {
     description: 'A storybook blog post from children\u2019s author Alora Swift.',
     type: 'article',
   },
+  '/free-coloring-book': {
+    title: 'Free Printable Colouring Book for Kids | Alora Swift',
+    description:
+      'Download a free six-page printable colouring book — Cuddles the koala, Penny the platypus, a seven-band rainbow and a full moon — for ages 3-7.',
+  },
   '/privacy': {
     title: 'Privacy Policy | Alora Swift',
     description: 'How Alora Swift collects, uses, and protects personal information on aloraswift.com.',
