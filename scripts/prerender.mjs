@@ -183,7 +183,7 @@ async function querySanity(groq) {
   return (await res.json()).result || [];
 }
 
-function buildHtml(template, { title, description, canonical, image, type, bodyHtml, jsonLd }) {
+function buildHtml(template, { title, description, canonical, image, type, bodyHtml, jsonLd, extraMeta }) {
   let html = template;
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*"\s*\/?>/, `<meta name="description" content="${esc(description)}" />`);
@@ -201,6 +201,8 @@ function buildHtml(template, { title, description, canonical, image, type, bodyH
   setMeta('name', 'twitter:title', title);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', img);
+  // Route-specific extras — e.g. the article:* tags Pinterest Rich Pins require on Article pages.
+  for (const [attr, key, content] of extraMeta || []) if (content) setMeta(attr, key, content);
   const head = [
     `<link rel="canonical" href="${esc(canonical)}" />`,
     jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '',
@@ -389,6 +391,11 @@ async function main() {
       canonical: url,
       image: p.cover || undefined,
       type: 'article',
+      // Pinterest Rich Pins (Article) require these two alongside og:type=article.
+      extraMeta: [
+        ['property', 'article:published_time', p.publishedAt],
+        ['property', 'article:author', `${SITE}/about`],
+      ],
       bodyHtml: body,
       jsonLd: {
         '@context': 'https://schema.org', '@type': 'Article', headline: p.title,

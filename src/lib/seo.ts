@@ -225,4 +225,7 @@ export function applyJournalSeo(
     },
     pathname
   );
+  // Pinterest Rich Pins (Article) require these two tags alongside og:type=article.
+  if (post.publishedAt) setMeta('property', 'article:published_time', post.publishedAt);
+  setMeta('property', 'article:author', `${SITE_URL}/about`);
 }
