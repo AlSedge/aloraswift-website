@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "vite",
     "preflight": "node scripts/preflight.mjs",
-    "build": "node scripts/preflight.mjs && tsc -b && node scripts/generate-sitemap.mjs && vite build && node scripts/prerender.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
+    "build": "node scripts/preflight.mjs && tsc -b && node scripts/generate-sitemap.mjs && vite build && node scripts/prerender.mjs && node scripts/indexnow.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
