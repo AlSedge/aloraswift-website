@@ -87,7 +87,7 @@ export default function Journal() {
                     <div>
                       {post.coverImage && (
                         <img
-                          src={urlFor(post.coverImage).width(800).url()}
+                          src={urlFor(post.coverImage).width(800).auto('format').url()}
                           alt={post.title}
                           loading="lazy"
                           className="w-full aspect-video object-cover rounded-2xl mb-6"

@@ -49,7 +49,7 @@ export default function About() {
   }, []);
 
   const headline = about?.headline || 'About Alora Swift';
-  const photoUrl = about?.photo ? urlFor(about.photo).width(1000).url() : '/aloraforweb.png';
+  const photoUrl = about?.photo ? urlFor(about.photo).width(900).auto('format').url() : '/aloraforweb.png';
   const facts = about?.facts?.length
     ? about.facts.map((f, i) => ({ ...FALLBACK_FACTS[i % FALLBACK_FACTS.length], title: f.title, text: f.text }))
     : FALLBACK_FACTS;

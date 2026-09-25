@@ -19,6 +19,32 @@ const AUTHOR = 'Alora Swift';
 const DEFAULT_DESC =
   "Magical children's picture books by Alora Swift — whimsical tales of brave platypuses, lost koala bears, and baking adventures. Perfect for bedtime reading and early readers.";
 
+// Fallbacks for the About page (mirror src/pages/About.tsx) — used when the
+// Sanity aboutPage document is empty.
+const FALLBACK_ABOUT_INTRO = [
+  'Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child\u2019s eyes light up — and I never forgot it.',
+  'Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life\u2019s biggest questions (like "what if clouds tasted like cotton candy?").',
+  'My stories are full of brave platypuses, lost koala bears, and little heroes who find magic hiding in the most unexpected places — because that\u2019s what childhood feels like when you\u2019re paying attention.',
+];
+const FALLBACK_ABOUT_FACTS = [
+  { title: 'Teacher first', text: 'A decade of kindergarten storytimes taught me what makes a book magical for little listeners.' },
+  { title: 'Characters with heart', text: 'Every hero in my books faces a big scary problem — and finds brave, silly, kind ways through it.' },
+  { title: 'Home is Ireland', text: 'I live in rural Ireland with my husband. Our kids are grown and living their own adventures, and we share our home with Loki, a golden retriever who thinks he\u2019s everyone\u2019s friend.' },
+];
+
+// Book meta description: Sanity synopses are authoritative, but a page with no
+// synopsis (or a very short one) would otherwise ship a useless 22-character
+// description, so build a real sentence from the fields we do have.
+function bookDescription(b) {
+  const syn = String(b.synopsis || '').trim();
+  if (syn.length >= 60) return syn.slice(0, 300);
+  const grownUp = (b.category || "Children's Books") !== "Children's Books";
+  const kind = grownUp ? 'book for grown-ups' : "children's picture book";
+  const lead = `${b.title}${b.tagline ? ` — ${b.tagline}` : ''}.`;
+  const body = `A ${kind} by ${AUTHOR}${b.ageRange ? `, for ages ${b.ageRange}` : ''}.`;
+  return [lead, body, syn].filter(Boolean).join(' ');
+}
+
 const STATIC_PAGES = {
   '/books': {
     title: "Children's Picture Books by Alora Swift",
@@ -49,18 +75,63 @@ const STATIC_PAGES = {
     description: 'How Alora Swift collects, uses, and protects personal information on aloraswift.com.',
     heading: 'Privacy Policy',
     intro: 'How Alora Swift collects, uses, and protects personal information on aloraswift.com.',
+    // Full text mirrored from src/pages/Privacy.tsx — keep the two in sync.
+    body: [
+      '<p>Last updated: 24 August 2026</p>',
+      '<h2>Who we are</h2>',
+      '<p>This website, aloraswift.com, is the personal author site of Alora Swift, a children\'s book author. If you have any questions about this policy, you can email <a href="mailto:alora@aloraswift.com">alora@aloraswift.com</a>.</p>',
+      '<h2>Information we collect</h2>',
+      '<p><strong>Newsletter sign-ups:</strong> if you sign up for the newsletter, we collect the email address you provide, and we use it only to send you the newsletter you asked for. You can unsubscribe at any time.</p>',
+      '<p><strong>Usage data:</strong> like most websites, our hosting provider (Vercel) and any analytics tools we use may collect basic, anonymised technical data such as pages visited, device type, and approximate location. This helps us understand which stories readers enjoy most.</p>',
+      '<p><strong>Emails:</strong> when you email us, we keep your message only as long as needed to reply and resolve your query.</p>',
+      '<h2>Cookies</h2>',
+      '<p>We do not use advertising cookies. If we add analytics or other services that use cookies in the future, this policy will be updated to explain them.</p>',
+      '<h2>Third-party services</h2>',
+      '<p>This site is hosted on <strong>Vercel</strong> and uses <strong>Sanity</strong> to serve book and blog content. Purchases of books are completed on <strong>Amazon</strong> (or the retailer shown on the book page), and those sites have their own privacy policies — please read them before shopping.</p>',
+      "<h2>Children's privacy</h2>",
+      '<p>Our books are written for children, but this website is designed for parents, carers, and educators. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, contact us and we will delete it promptly.</p>',
+      '<h2>Your rights</h2>',
+      '<p>You may ask us at any time what personal information we hold about you, ask us to correct or delete it, or ask us to stop using it. Just email <a href="mailto:alora@aloraswift.com">alora@aloraswift.com</a> and we\'ll take care of it.</p>',
+      '<h2>Changes to this policy</h2>',
+      '<p>If we change this policy, we\'ll update the "last updated" date at the top of this page.</p>',
+    ],
   },
   '/terms': {
     title: 'Terms of Service | Alora Swift',
     description: 'The terms that apply when you use aloraswift.com.',
     heading: 'Terms of Service',
     intro: 'The terms that apply when you use aloraswift.com.',
+    // Full text mirrored from src/pages/Terms.tsx — keep the two in sync.
+    body: [
+      '<h2>Using this website</h2>',
+      '<p>By using aloraswift.com you agree to these terms. The content on this site — text, images, and illustrations — belongs to Alora Swift unless stated otherwise and may not be reproduced without permission.</p>',
+      '<h2>Content is for information and enjoyment</h2>',
+      '<p>Blog posts, reading lists, and activity ideas are shared to inform and entertain. We do our best to keep everything accurate, but content may change and is provided "as is" without warranties of any kind.</p>',
+      '<h2>Buying books</h2>',
+      '<p>When you buy a book, the purchase happens with the retailer (such as Amazon) under their own terms. We are not responsible for the retailer\'s service, delivery, or returns.</p>',
+      '<h2>Links to other sites</h2>',
+      '<p>We link to third-party websites for your convenience. We don\'t control those sites and aren\'t responsible for their content or privacy practices.</p>',
+      '<h2>Limitation of liability</h2>',
+      '<p>To the maximum extent permitted by law, Alora Swift is not liable for any loss or damage arising from your use of this website.</p>',
+      '<h2>Contact</h2>',
+      '<p>Questions about these terms? Email <a href="mailto:alora@aloraswift.com">alora@aloraswift.com</a>.</p>',
+      '<p><a href="/privacy">Read the Privacy Policy</a></p>',
+    ],
   },
   '/disclosure': {
     title: 'Affiliate Disclosure | Alora Swift',
     description: 'Some links on aloraswift.com may earn the author a small commission at no extra cost to you.',
     heading: 'Affiliate Disclosure',
     intro: 'Some links on this site are affiliate links — if you buy through them, Alora may earn a small commission at no extra cost to you.',
+    // Full text mirrored from src/pages/Disclosure.tsx — keep the two in sync.
+    body: [
+      '<p>Last updated: 24 August 2026</p>',
+      '<p><strong>Some links on this site are affiliate links.</strong></p>',
+      '<p>This means that if you click a book or product link and make a purchase, Alora Swift may earn a small commission — <strong>at no extra cost to you</strong>.</p>',
+      "<p>Where we recommend a book, game, or toy on this site, it's because we genuinely love it and think your family will too — not because of the commission. Affiliate earnings help support the time and care that goes into writing and sharing these stories.</p>",
+      "<p>Book purchases are completed with the retailer (such as Amazon) under their own terms and privacy policies. We never recommend anything we wouldn't happily read (or play) ourselves.</p>",
+      "<p>Thank you so much for supporting independent children's authors! 💛</p>",
+    ],
   },
 };
 
@@ -121,7 +192,7 @@ function buildHtml(template, { title, description, canonical, image, type, bodyH
     if (re.test(html)) html = html.replace(re, `<meta ${attr}="${key}" content="${esc(content)}" />`);
     else html = html.replace('</head>', `  <meta ${attr}="${key}" content="${esc(content)}" />\n</head>`);
   };
-  const img = image || `${SITE}/aloraforweb.png`;
+  const img = image || `${SITE}/og-image.jpg`;
   setMeta('property', 'og:title', title);
   setMeta('property', 'og:description', description);
   setMeta('property', 'og:type', type || 'website');
@@ -182,13 +253,14 @@ async function main() {
     ].join('\n'),
     jsonLd: [
       { '@context': 'https://schema.org', '@type': 'WebSite', name: AUTHOR, url: SITE, author },
-      { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR, url: SITE, image: `${SITE}/aloraforweb.png`, jobTitle: "Children's Book Author" },
+      { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR, url: SITE, image: `${SITE}/og-image.jpg`, jobTitle: "Children's Book Author" },
     ],
   }));
 
   // 2) Static pages (+ the Books hub, which lists the collections)
   for (const [route, meta] of Object.entries(STATIC_PAGES)) {
     let body = [`<h1>${esc(meta.heading)}</h1>`, `<p>${esc(meta.intro)}</p>`];
+    if (meta.body) body.push(...meta.body);
     let jsonLd = { '@context': 'https://schema.org', '@type': 'WebPage', name: meta.heading, description: meta.description, url: SITE + route };
 
     const CHILDRENS_CAT = "Children's Books";
@@ -238,6 +310,7 @@ async function main() {
         for (const p of posts) body.push(`<li><a href="/journal/${esc(p.slug)}">${esc(p.title)}</a>${p.excerpt ? ` — ${esc(p.excerpt)}` : ''}</li>`);
         body.push('</ul>');
       }
+      body.push('<p><a href="/">Join the Storybook Club</a> for new posts, reading lists and free printables.</p>');
       const items = posts.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: `${SITE}/journal/${p.slug}` }));
       jsonLd = [
         { '@context': 'https://schema.org', '@type': 'Blog', name: 'The Storybook Blog', url: SITE + route, author },
@@ -246,6 +319,17 @@ async function main() {
     }
 
     if (route === '/about') {
+      // Pull the real About copy from Sanity so the crawlable HTML matches the page.
+      const about = await querySanity('*[_type == "aboutPage"][0]{headline, intro, facts[]{title, text}, ctaTitle, ctaText}');
+      const introHtml = about && Array.isArray(about.intro) && about.intro.length
+        ? portableTextToHtml(about.intro)
+        : FALLBACK_ABOUT_INTRO.map((p) => `<p>${esc(p)}</p>`).join('\n');
+      const facts = about && Array.isArray(about.facts) && about.facts.length ? about.facts : FALLBACK_ABOUT_FACTS;
+      body.push('<h2>From the classroom to the storybook page</h2>', introHtml);
+      body.push('<h2>A few things about me</h2>');
+      for (const f of facts) body.push(`<h3>${esc(f.title)}</h3>`, `<p>${esc(f.text)}</p>`);
+      if (about && about.ctaTitle) body.push(`<h2>${esc(about.ctaTitle)}</h2>`, about.ctaText ? `<p>${esc(about.ctaText)}</p>` : '');
+      body.push('<p><a href="/books">Explore the children&apos;s books</a> · <a href="/journal">Read the Storybook Blog</a></p>');
       jsonLd = { '@context': 'https://schema.org', '@type': 'AboutPage', name: meta.heading, description: meta.description, url: SITE + route, mainEntity: author };
     }
 
@@ -258,12 +342,13 @@ async function main() {
   // 3) Book detail pages
   for (const b of books) {
     const url = bookUrl(b.slug);
+    const description = bookDescription(b);
     const body = [
       '<article>',
       `<h1>${esc(b.title)}</h1>`,
       b.tagline ? `<p><em>${esc(b.tagline)}</em></p>` : '',
       b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} cover" width="600" />` : '',
-      b.synopsis ? `<p>${esc(b.synopsis)}</p>` : '',
+      `<p>${esc(description)}</p>`,
       b.ageRange ? `<p>Ages: ${esc(b.ageRange)}</p>` : '',
       b.buyLink ? `<p><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy the book</a></p>` : '',
       `<p><a href="${(b.category || "Children\'s Books") === "Children\'s Books" ? '/books' : '/senior-books'}">Back to all books</a></p>`,
@@ -271,14 +356,14 @@ async function main() {
     ].filter(Boolean).join('\n');
     write(`/books/${b.slug}`, buildHtml(template, {
       title: `${b.title} | ${AUTHOR}`,
-      description: b.synopsis || `A book by ${AUTHOR}.`,
+      description,
       canonical: url,
       image: b.cover || undefined,
       type: 'book',
       bodyHtml: body,
       jsonLd: {
         '@context': 'https://schema.org', '@type': 'Book', name: b.title, author, url,
-        ...(b.synopsis ? { description: b.synopsis } : {}),
+        description,
         ...(b.cover ? { image: b.cover } : {}),
         inLanguage: 'en',
       },
@@ -314,7 +399,16 @@ async function main() {
     }));
   }
 
-  console.log(`Prerendered ${written} pages (${books.length} books, ${posts.length} journal posts)`);
+  // 5) 404 page.
+  // Vercel serves dist/404.html (with a real HTTP 404) for any path that does
+  // not match a static file, so unknown URLs stop answering "200 OK" (soft
+  // 404s are indexable). It is the app shell, so React still renders the
+  // friendly "page not found" screen; the noindex tag keeps it out of search.
+  const homePath = path.join(DIST, 'index.html');
+  const homeHtml = fs.readFileSync(homePath, 'utf8');
+  fs.writeFileSync(path.join(DIST, '404.html'), homeHtml.replace('</head>', '  <meta name="robots" content="noindex" />\n</head>'), 'utf8');
+
+  console.log(`Prerendered ${written} pages (${books.length} books, ${posts.length} journal posts) + 404.html`);
 }
 
 main().catch((err) => {

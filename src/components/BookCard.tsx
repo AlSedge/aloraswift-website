@@ -10,7 +10,7 @@ export default function BookCard({ book }: { book: SanityBook }) {
     >
       <div className="overflow-hidden rounded-2xl mb-6 aspect-square relative">
         <img
-          src={book.coverImage ? urlFor(book.coverImage).width(600).url() : "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1974&auto=format&fit=crop"}
+          src={book.coverImage ? urlFor(book.coverImage).width(600).auto('format').url() : "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1974&auto=format&fit=crop"}
           alt={book.title}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

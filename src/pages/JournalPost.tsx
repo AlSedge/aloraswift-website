@@ -31,7 +31,7 @@ export default function JournalPost() {
 
   useEffect(() => {
     if (post && slug) {
-      const coverUrl = post.coverImage ? urlFor(post.coverImage).width(1200).url() : null;
+      const coverUrl = post.coverImage ? urlFor(post.coverImage).width(1200).auto('format').url() : null;
       applyJournalSeo(
         { title: post.title, excerpt: post.excerpt, coverUrl, publishedAt: post.publishedAt },
         `/journal/${slug}`
@@ -78,7 +78,7 @@ export default function JournalPost() {
 
                 {post.coverImage && (
                   <img
-                    src={urlFor(post.coverImage).width(1200).url()}
+                    src={urlFor(post.coverImage).width(1200).auto('format').url()}
                     alt={post.title}
                     className="w-full aspect-video object-cover rounded-[2rem] mb-10 shadow-lg"
                   />

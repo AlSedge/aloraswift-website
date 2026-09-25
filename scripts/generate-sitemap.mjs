@@ -23,13 +23,20 @@ const STATIC_ROUTES = [
   { path: '/terms', priority: '0.3', changefreq: 'yearly' },
 ];
 
-const books = await q('*[_type == "book" && defined(slug.current)]{ "slug": slug.current } | order(publishedAt desc)');
-const posts = await q('*[_type == "journalPost" && defined(slug.current)]{ "slug": slug.current } | order(publishedAt desc)');
+const books = await q('*[_type == "book" && defined(slug.current)]{ "slug": slug.current, _updatedAt } | order(publishedAt desc)');
+const posts = await q('*[_type == "journalPost" && defined(slug.current)]{ "slug": slug.current, _updatedAt } | order(publishedAt desc)');
+
+// Static routes are regenerated on every build, so the build date is honest for them.
+const buildDate = new Date().toISOString().slice(0, 10);
+const iso = (d) => {
+  const t = new Date(d);
+  return isNaN(t) ? buildDate : t.toISOString();
+};
 
 const urls = [
-  ...STATIC_ROUTES.map((r) => ({ loc: BASE + r.path, priority: r.priority, changefreq: r.changefreq })),
-  ...books.map((b) => ({ loc: `${BASE}/books/${b.slug}`, priority: '0.8', changefreq: 'monthly' })),
-  ...posts.map((p) => ({ loc: `${BASE}/journal/${p.slug}`, priority: '0.6', changefreq: 'monthly' })),
+  ...STATIC_ROUTES.map((r) => ({ loc: BASE + r.path, priority: r.priority, changefreq: r.changefreq, lastmod: buildDate })),
+  ...books.map((b) => ({ loc: `${BASE}/books/${b.slug}`, priority: '0.8', changefreq: 'monthly', lastmod: iso(b._updatedAt) })),
+  ...posts.map((p) => ({ loc: `${BASE}/journal/${p.slug}`, priority: '0.6', changefreq: 'monthly', lastmod: iso(p._updatedAt) })),
 ];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -38,6 +45,7 @@ ${urls
   .map(
     (u) => `  <url>
     <loc>${u.loc}</loc>
+    <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`

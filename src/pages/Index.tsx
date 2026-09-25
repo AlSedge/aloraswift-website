@@ -64,7 +64,7 @@ export default function Index() {
           fetchedBooks.map((b) => ({
             title: b.title,
             slug: b.slug?.current || '',
-            coverUrl: b.coverImage ? urlFor(b.coverImage).width(600).url() : null,
+            coverUrl: b.coverImage ? urlFor(b.coverImage).width(600).auto('format').url() : null,
           }))
         );
       } catch (error) {
@@ -192,7 +192,7 @@ export default function Index() {
                 <div className="relative mx-auto w-full max-w-md lg:max-w-none group perspective-1000">
                   <div className="relative z-10 w-full rounded-3xl shadow-2xl overflow-hidden transform transition-transform duration-500 group-hover:rotate-y-12">
                     <img
-                      src={latestBook.coverImage ? urlFor(latestBook.coverImage).width(800).url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
+                      src={latestBook.coverImage ? urlFor(latestBook.coverImage).width(800).auto('format').url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
                       alt={latestBook.title}
                       className="w-full aspect-[4/5] object-cover"
                     />
@@ -309,7 +309,7 @@ export default function Index() {
                     <div key={review._id} className="group bg-white rounded-[2rem] p-6 shadow-sm border border-amber-50 flex flex-col hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                       <div className="overflow-hidden rounded-2xl mb-6 aspect-video relative">
                         <img
-                          src={review.image ? urlFor(review.image).width(600).url() : "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop"}
+                          src={review.image ? urlFor(review.image).width(600).auto('format').url() : "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2098&auto=format&fit=crop"}
                           alt={review.title}
                           loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -345,7 +345,7 @@ export default function Index() {
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
                 <img
-                  src={about?.photo ? urlFor(about.photo).width(1000).url() : "/aloraforweb.png"}
+                  src={about?.photo ? urlFor(about.photo).width(900).auto('format').url() : "/aloraforweb.png"}
                   alt="Alora Swift in study"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

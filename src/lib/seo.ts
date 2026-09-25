@@ -20,7 +20,7 @@ export const authorJsonLd = {
   '@type': 'Person',
   name: 'Alora Swift',
   url: SITE_URL,
-  image: `${SITE_URL}/aloraforweb.png`,
+  image: `${SITE_URL}/og-image.jpg`,
   jobTitle: "Children's Book Author",
   description:
     "Alora Swift is a children's book author and former kindergarten teacher. She writes whimsical picture books about brave platypuses, lost koala bears, and adventures in unexpected places.",
@@ -137,9 +137,11 @@ export function applySeo(meta: SeoMeta, pathname: string) {
   setMeta('property', 'og:type', meta.type || 'website');
   setMeta('property', 'og:url', SITE_URL + pathname);
   setMeta('property', 'og:site_name', SITE_NAME);
+  setMeta('property', 'og:image', `${SITE_URL}/og-image.jpg`);
   setMeta('name', 'twitter:card', 'summary_large_image');
   setMeta('name', 'twitter:title', meta.title);
   setMeta('name', 'twitter:description', meta.description);
+  setMeta('name', 'twitter:image', `${SITE_URL}/og-image.jpg`);
   setCanonical(SITE_URL + pathname);
   setJsonLd('seo-jsonld', meta.jsonLd);
 }

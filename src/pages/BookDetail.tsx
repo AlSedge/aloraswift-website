@@ -42,7 +42,7 @@ export default function BookDetail() {
 
   useEffect(() => {
     if (book && slug) {
-      const coverUrl = book.coverImage ? urlFor(book.coverImage).width(800).url() : null;
+      const coverUrl = book.coverImage ? urlFor(book.coverImage).width(800).auto('format').url() : null;
       applyBookSeo({ title: book.title, synopsis: book.synopsis, coverUrl }, `/books/${slug}`);
     }
   }, [book, slug]);
@@ -78,7 +78,7 @@ export default function BookDetail() {
                     <div className="relative mx-auto w-full max-w-md lg:max-w-none group perspective-1000">
                       <div className="relative z-10 w-full rounded-3xl shadow-2xl overflow-hidden transform transition-transform duration-500 group-hover:rotate-y-12">
                         <img
-                          src={book.coverImage ? urlFor(book.coverImage).width(800).url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
+                          src={book.coverImage ? urlFor(book.coverImage).width(800).auto('format').url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
                           alt={`Cover of ${book.title} by Alora Swift`}
                           className="w-full aspect-[4/5] object-cover"
                         />
