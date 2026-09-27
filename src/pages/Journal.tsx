@@ -135,7 +135,7 @@ export default function Journal() {
                           {post.title}
                         </h2>
                         <p className="text-slate-600 font-medium leading-relaxed">
-                          Alora is busy writing this one — it will be here before you know it!
+                          Alora is busy writing this one - it will be here before you know it!
                         </p>
                       </div>
                       <div className="mt-8 flex items-center font-bold text-slate-400">
@@ -148,7 +148,7 @@ export default function Journal() {
 
             {showFallback && (
               <p className="text-center text-slate-500 font-medium mt-16">
-                New posts are on the way — check back soon for printables, reading lists, and
+                New posts are on the way - check back soon for printables, reading lists, and
                 behind-the-scenes peeks!
               </p>
             )}

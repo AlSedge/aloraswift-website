@@ -31,8 +31,8 @@ export default function Terms() {
             <div className="bg-white rounded-[2rem] p-8 md:p-12 border-2 border-amber-50 shadow-sm">
               <Section title="Using this website">
                 <p>
-                  By using aloraswift.com you agree to these terms. The content on this site — text,
-                  images, and illustrations — belongs to Alora Swift unless stated otherwise and may
+                  By using aloraswift.com you agree to these terms. The content on this site - text,
+                  images, and illustrations - belongs to Alora Swift unless stated otherwise and may
                   not be reproduced without permission.
                 </p>
               </Section>

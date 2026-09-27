@@ -47,7 +47,7 @@ export default function BookDetail() {
     }
   }, [book, slug]);
 
-  // Which shelf this book belongs to — children's hub vs grown-up hub
+  // Which shelf this book belongs to - children's hub vs grown-up hub
   const isChildrens = (book?.category || "Children's Books") === "Children's Books";
   const hubPath = isChildrens ? '/books' : '/senior-books';
   const hubLabel = isChildrens ? 'Books' : 'Books for Grown-Ups';
@@ -109,7 +109,7 @@ export default function BookDetail() {
                       </div>
 
                       <p className="text-xl text-slate-600 leading-relaxed mb-6 font-medium whitespace-pre-wrap">
-                        {book.synopsis || (isChildrens ? "A heartwarming tale of friendship, courage, and finding your way home — perfect for little readers (and the grown-ups reading to them)." : "A book by Alora Swift.")}
+                        {book.synopsis || (isChildrens ? "A heartwarming tale of friendship, courage, and finding your way home - perfect for little readers (and the grown-ups reading to them)." : "A book by Alora Swift.")}
                       </p>
 
                       {book.reviewQuote && (
@@ -118,7 +118,7 @@ export default function BookDetail() {
                           <p className="text-lg text-slate-700 italic font-medium">
                             &quot;{book.reviewQuote}&quot;
                             {book.reviewAuthor && (
-                              <span className="block text-sm font-bold text-sky-600 mt-2">— {book.reviewAuthor}</span>
+                              <span className="block text-sm font-bold text-sky-600 mt-2">- {book.reviewAuthor}</span>
                             )}
                           </p>
                         </div>

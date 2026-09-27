@@ -111,7 +111,7 @@ export default function Index() {
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
           email: email.trim(),
-          subject: 'Newsletter signup — Alora Swift',
+          subject: 'Newsletter signup - Alora Swift',
           message: `Please add ${email.trim()} to the newsletter list (free printable coloring book requested).`,
         }),
       });
@@ -230,7 +230,7 @@ export default function Index() {
                     <Quote size={32} className="absolute -top-4 -left-4 text-sky-300 bg-[#FFFBF0] rounded-full p-1" />
                     <p className="text-lg text-slate-700 italic font-medium">
                       &quot;{latestBook.reviewQuote || "A beautiful story about resilience and friendship. My kids ask to read it every single night!"}&quot;
-                      <span className="block text-sm font-bold text-sky-600 mt-2">— {latestBook.reviewAuthor || "Sarah T., Mom of two"}</span>
+                      <span className="block text-sm font-bold text-sky-600 mt-2">- {latestBook.reviewAuthor || "Sarah T., Mom of two"}</span>
                     </p>
                   </div>
 
@@ -483,7 +483,7 @@ export default function Index() {
               <div className="bg-white/95 rounded-[2rem] p-10 shadow-xl">
                 <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 mb-4">Thank you! 💌</h2>
                 <p className="text-xl text-slate-600 font-medium leading-relaxed">
-                  You&apos;re on the list! Your free printable coloring book is ready — grab it
+                  You&apos;re on the list! Your free printable coloring book is ready - grab it
                   below. Watch your inbox for all the latest book news too.
                 </p>
                 <a

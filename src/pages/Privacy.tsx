@@ -71,7 +71,7 @@ export default function Privacy() {
                   <strong className="text-slate-800">Sanity</strong> to serve book and blog content.
                   Purchases of books are completed on <strong className="text-slate-800">Amazon</strong>{' '}
                   (or the retailer shown on the book page), and those sites have their own privacy
-                  policies — please read them before shopping.
+                  policies - please read them before shopping.
                 </p>
               </Section>
 

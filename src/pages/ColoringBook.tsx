@@ -10,10 +10,10 @@ const WEB3FORMS_KEY = '83d75253-87c1-4e99-8652-d983928f1d38';
 // /free-coloring-book.pdf; before this page existed the file had no landing
 // page, so nothing could link to it except the raw download.
 const PAGES = [
-  { img: '/coloring/page-1.webp', title: 'The cover', text: 'A title page for them to colour and sign — theirs before they have drawn a thing.' },
+  { img: '/coloring/page-1.webp', title: 'The cover', text: 'A title page for them to colour and sign - theirs before they have drawn a thing.' },
   { img: '/coloring/page-2.webp', title: 'Cuddles the koala', text: 'The lost koala bear from Cuddles Loses His Home, up in his gum tree.' },
   { img: '/coloring/page-3.webp', title: 'Penny the platypus', text: 'Penny from The Silver Stream, in the water she spends the story trying to save.' },
-  { img: '/coloring/page-4.webp', title: 'A seven-band rainbow', text: 'Left empty on purpose — seven separate bands, one for every colour they can name.' },
+  { img: '/coloring/page-4.webp', title: 'A seven-band rainbow', text: 'Left empty on purpose - seven separate bands, one for every colour they can name.' },
   { img: '/coloring/page-5.webp', title: 'A full moon', text: 'With a face and craters, for the child who likes to talk while they colour.' },
   { img: '/coloring/page-6.webp', title: 'A "The End" page', text: 'Because finishing something and signing your name is a big deal at four.' },
 ];
@@ -22,7 +22,7 @@ const WHY = [
   { title: 'Pencil grip and control', text: 'Staying inside a line is the same small-muscle work as forming letters, so handwriting arrives with less of a struggle.' },
   { title: 'Left to right, top to bottom', text: 'We read in a direction, and children have to be taught the rule. Filling in a picture rehearses it without a single instruction.' },
   { title: 'Naming things', text: '"What colour is his nose?" adds a word. Vocabulary is the strongest predictor of how easily a child learns to read.' },
-  { title: 'Owning the character', text: 'A child who has coloured Cuddles for twenty minutes knows Cuddles — and asks for the story that evening.' },
+  { title: 'Owning the character', text: 'A child who has coloured Cuddles for twenty minutes knows Cuddles - and asks for the story that evening.' },
 ];
 
 export default function ColoringBook() {
@@ -43,7 +43,7 @@ export default function ColoringBook() {
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
           email: email.trim(),
-          subject: 'Newsletter signup — Alora Swift',
+          subject: 'Newsletter signup - Alora Swift',
           message: `Please add ${email.trim()} to the newsletter list (signed up on the free colouring book page).`,
         }),
       });
@@ -75,7 +75,7 @@ export default function ColoringBook() {
               The Free Colouring Book
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 leading-relaxed font-medium mb-10">
-              Six printable A4 pages for ages 3–7 — Cuddles the koala, Penny the platypus, a seven-band rainbow
+              Six printable A4 pages for ages 3-7 - Cuddles the koala, Penny the platypus, a seven-band rainbow
               and a very full moon. Print one at a time, and let them choose.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -93,7 +93,7 @@ export default function ColoringBook() {
               </Link>
             </div>
             <p className="text-sm text-slate-500 font-medium mt-6">
-              No signup needed — the download is free. It is yours to photocopy for a classroom or playgroup.
+              No signup needed - the download is free. It is yours to photocopy for a classroom or playgroup.
             </p>
           </div>
         </section>
@@ -162,7 +162,7 @@ export default function ColoringBook() {
             </p>
             {subscribed ? (
               <div className="relative z-10 bg-white/95 rounded-2xl p-8">
-                <p className="text-xl font-bold text-slate-800 mb-2">You&apos;re on the list — thank you!</p>
+                <p className="text-xl font-bold text-slate-800 mb-2">You&apos;re on the list - thank you!</p>
                 <p className="text-slate-600 font-medium mb-6">Keep an eye on your inbox for the next printable.</p>
                 <a
                   href="/free-coloring-book.pdf"

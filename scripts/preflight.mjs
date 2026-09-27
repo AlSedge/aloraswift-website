@@ -14,7 +14,7 @@ const ok = (major === 20 && minor >= 19) || major > 20 || (major === 22 && minor
 console.log(`[preflight] node ${process.version} on ${process.platform}/${process.arch}`);
 console.log(`[preflight] npm ${process.env.npm_config_user_agent || 'unknown'}`);
 if (!ok) {
-  console.warn(`[preflight] WARNING: this Node version does not satisfy vite 8 (needs ^20.19.0 || >=22.12.0) — the build will very likely fail.`);
+  console.warn(`[preflight] WARNING: this Node version does not satisfy vite 8 (needs ^20.19.0 || >=22.12.0) - the build will very likely fail.`);
 }
 
 try {
@@ -23,7 +23,7 @@ try {
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const json = await res.json();
-  console.log(`[preflight] Sanity reachable — ${json.result} books, ${json.ms}ms`);
+  console.log(`[preflight] Sanity reachable - ${json.result} books, ${json.ms}ms`);
 } catch (err) {
   // A warning, not a failure: the sitemap and prerender steps each fail loudly
   // on their own if they cannot read content.

@@ -74,7 +74,7 @@ export default function About() {
               {headline}
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
-              Storyteller, former kindergarten teacher, and big kid at heart — I write books that
+              Storyteller, former kindergarten teacher, and big kid at heart - I write books that
               make little eyes light up and sleepy voices beg for &quot;just one more page.&quot;
             </p>
           </div>

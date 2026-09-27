@@ -58,4 +58,4 @@ ${urls
 const { writeFileSync, mkdirSync } = await import('node:fs');
 mkdirSync('public', { recursive: true });
 writeFileSync('public/sitemap.xml', xml);
-console.log(`sitemap.xml written — ${urls.length} URLs (${books.length} books, ${posts.length} journal posts)`);
+console.log(`sitemap.xml written - ${urls.length} URLs (${books.length} books, ${posts.length} journal posts)`);

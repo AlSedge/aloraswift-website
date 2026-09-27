@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.aloraswift.com/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/books</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/senior-books</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/about</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/journal</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/free-coloring-book</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/disclosure</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/privacy</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.aloraswift.com/terms</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://www.aloraswift.com/books/penny-and-the-silver-stream</loc>
-    <lastmod>2026-09-25T13:41:59.000Z</lastmod>
+    <lastmod>2026-09-27T08:28:47.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -80,7 +80,7 @@
   </url>
   <url>
     <loc>https://www.aloraswift.com/books/baby-boomer-quiz</loc>
-    <lastmod>2026-09-04T12:38:18.000Z</lastmod>
+    <lastmod>2026-09-27T08:28:47.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -105,6 +105,42 @@
   <url>
     <loc>https://www.aloraswift.com/journal/interesting-senior-living-site</loc>
     <lastmod>2026-09-04T12:46:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/baking-with-little-ones</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/bedtime-reading-routine</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/books-to-read-with-grandchildren</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/free-colouring-pages-early-reading</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/how-to-choose-a-picture-book</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.aloraswift.com/journal/questions-to-ask-while-reading</loc>
+    <lastmod>2026-09-27T08:28:46.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

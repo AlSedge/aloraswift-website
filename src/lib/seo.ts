@@ -13,7 +13,7 @@ export const SITE_URL = 'https://www.aloraswift.com';
 export const SITE_NAME = 'Alora Swift';
 
 const DEFAULT_DESCRIPTION =
-  "Magical children's picture books by Alora Swift — whimsical tales of brave platypuses, lost koala bears, and baking adventures. Perfect for bedtime reading and early readers.";
+  "Magical children's picture books by Alora Swift - whimsical tales of brave platypuses, lost koala bears, and baking adventures. Perfect for bedtime reading and early readers.";
 
 export const authorJsonLd = {
   '@context': 'https://schema.org',
@@ -44,12 +44,12 @@ const ROUTE_META: Record<string, SeoMeta> = {
   '/books': {
     title: "Children's Picture Books by Alora Swift",
     description:
-      "Whimsical picture books and early readers for little ones by Alora Swift — bedtime stories, animal adventures and read-aloud favourites for ages 3-7.",
+      "Whimsical picture books and early readers for little ones by Alora Swift - bedtime stories, animal adventures and read-aloud favourites for ages 3-7.",
   },
   '/senior-books': {
     title: 'Books for Grown-Ups | Quizzes & Brain Games by Alora Swift',
     description:
-      'Nostalgia quizzes, brain games and light reads for grown-ups — books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
+      'Nostalgia quizzes, brain games and light reads for grown-ups - books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
   },
   '/books/:slug': {
     title: 'Book | Alora Swift',
@@ -59,12 +59,12 @@ const ROUTE_META: Record<string, SeoMeta> = {
   '/about': {
     title: "About Alora Swift | Children's Book Author",
     description:
-      'Meet Alora Swift — former kindergarten teacher, big kid at heart, and the author behind whimsical picture books for little readers.',
+      'Meet Alora Swift - former kindergarten teacher, big kid at heart, and the author behind whimsical picture books for little readers.',
   },
   '/journal': {
     title: 'The Storybook Blog | Alora Swift',
     description:
-      "Behind-the-scenes peeks, reading lists, printable activities, and tips for reading aloud to little ones — from children's author Alora Swift.",
+      "Behind-the-scenes peeks, reading lists, printable activities, and tips for reading aloud to little ones - from children's author Alora Swift.",
   },
   '/journal/:slug': {
     title: 'Journal Post | Alora Swift',
@@ -74,7 +74,7 @@ const ROUTE_META: Record<string, SeoMeta> = {
   '/free-coloring-book': {
     title: 'Free Printable Colouring Book for Kids | Alora Swift',
     description:
-      'Download a free six-page printable colouring book — Cuddles the koala, Penny the platypus, a seven-band rainbow and a full moon — for ages 3-7.',
+      'Download a free six-page printable colouring book - Cuddles the koala, Penny the platypus, a seven-band rainbow and a full moon - for ages 3-7.',
   },
   '/privacy': {
     title: 'Privacy Policy | Alora Swift',

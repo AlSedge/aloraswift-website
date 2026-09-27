@@ -8,7 +8,7 @@ import { fetchSanityBooks, SanityBook } from '../lib/sanity';
 
 const CHILDRENS = "Children's Books";
 
-// /senior-books — the grown-up shelf.
+// /senior-books - the grown-up shelf.
 // Kept off /books so the children's hub stays purely for little readers. This page
 // collects everything that is NOT a children's title (matched on the Sanity `category`
 // field), so future collections can never be orphaned by the split.
@@ -50,7 +50,7 @@ export default function SeniorBooks() {
               Books for <span className="text-emerald-600">Grown-Ups</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
-              Nostalgia quizzes, brain games and light reads — for parents, grandparents and anyone
+              Nostalgia quizzes, brain games and light reads - for parents, grandparents and anyone
               who likes to keep their mind busy.
             </p>
           </div>
@@ -73,7 +73,7 @@ export default function SeniorBooks() {
                 <Brain size={36} className="mx-auto text-emerald-300 mb-4" />
                 <h3 className="font-serif text-2xl font-bold text-slate-700 mb-2">Coming soon</h3>
                 <p className="text-lg text-slate-500 font-medium">
-                  The grown-up collection is being finished off — check back soon!
+                  The grown-up collection is being finished off - check back soon!
                 </p>
               </div>
             )}
@@ -89,7 +89,7 @@ export default function SeniorBooks() {
                     Looking for stories for little ones?
                   </h2>
                   <p className="text-lg text-slate-600 font-medium mt-1">
-                    Picture books, bedtime stories and read-aloud favourites for ages 3–7.
+                    Picture books, bedtime stories and read-aloud favourites for ages 3-7.
                   </p>
                 </div>
               </div>

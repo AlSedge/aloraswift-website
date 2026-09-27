@@ -8,7 +8,7 @@ import { fetchSanityBooks, SanityBook } from '../lib/sanity';
 
 const CHILDRENS = "Children's Books";
 
-// /books is the CHILDREN'S hub — picture books only.
+// /books is the CHILDREN'S hub - picture books only.
 // Grown-up titles (nostalgia quizzes, brain games) live at /senior-books, so a parent
 // browsing picture books never lands next to retirement planning or men's health.
 // Books are matched on the Sanity `category` field; anything without one is treated
@@ -51,8 +51,8 @@ export default function Books() {
               Picture Books for <span className="text-sky-500">Little Readers</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
-              Whimsical animal adventures, bedtime stories and read-aloud favourites for ages 3–7
-              — every one made to be read together.
+              Whimsical animal adventures, bedtime stories and read-aloud favourites for ages 3-7
+              - every one made to be read together.
             </p>
           </div>
         </section>
@@ -71,7 +71,7 @@ export default function Books() {
               </div>
             ) : (
               <p className="text-slate-500 text-center py-20 font-medium">
-                New stories are on their way — check back soon.
+                New stories are on their way - check back soon.
               </p>
             )}
 
@@ -86,7 +86,7 @@ export default function Books() {
                     Looking for books for grown-ups?
                   </h2>
                   <p className="text-lg text-slate-600 font-medium mt-1">
-                    Nostalgia quizzes, brain games and light reads — on their own shelf.
+                    Nostalgia quizzes, brain games and light reads - on their own shelf.
                   </p>
                 </div>
               </div>

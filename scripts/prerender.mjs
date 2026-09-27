@@ -17,18 +17,18 @@ const SITE = 'https://www.aloraswift.com';
 const API = `https://${process.env.VITE_SANITY_PROJECT_ID || '2fs2ltni'}.api.sanity.io/v2023-05-03/data/query/${process.env.VITE_SANITY_DATASET || 'production'}`;
 const AUTHOR = 'Alora Swift';
 const DEFAULT_DESC =
-  "Magical children's picture books by Alora Swift — whimsical tales of brave platypuses, lost koala bears, and baking adventures. Perfect for bedtime reading and early readers.";
+  "Magical children's picture books by Alora Swift - whimsical tales of brave platypuses, lost koala bears, and baking adventures. Perfect for bedtime reading and early readers.";
 
-// Fallbacks for the About page (mirror src/pages/About.tsx) — used when the
+// Fallbacks for the About page (mirror src/pages/About.tsx) - used when the
 // Sanity aboutPage document is empty.
 const FALLBACK_ABOUT_INTRO = [
-  'Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child\u2019s eyes light up — and I never forgot it.',
+  'Before I was an author, I was a kindergarten teacher who loved storytime more than anything else in the world. I saw firsthand how a good book could make a child\u2019s eyes light up - and I never forgot it.',
   'Now, I spend my spare time dreaming up silly characters, painting colorful worlds, and trying to answer life\u2019s biggest questions (like "what if clouds tasted like cotton candy?").',
-  'My stories are full of brave platypuses, lost koala bears, and little heroes who find magic hiding in the most unexpected places — because that\u2019s what childhood feels like when you\u2019re paying attention.',
+  'My stories are full of brave platypuses, lost koala bears, and little heroes who find magic hiding in the most unexpected places - because that\u2019s what childhood feels like when you\u2019re paying attention.',
 ];
 const FALLBACK_ABOUT_FACTS = [
   { title: 'Teacher first', text: 'A decade of kindergarten storytimes taught me what makes a book magical for little listeners.' },
-  { title: 'Characters with heart', text: 'Every hero in my books faces a big scary problem — and finds brave, silly, kind ways through it.' },
+  { title: 'Characters with heart', text: 'Every hero in my books faces a big scary problem - and finds brave, silly, kind ways through it.' },
   { title: 'Home is Ireland', text: 'I live in rural Ireland with my husband. Our kids are grown and living their own adventures, and we share our home with Loki, a golden retriever who thinks he\u2019s everyone\u2019s friend.' },
 ];
 
@@ -40,7 +40,7 @@ function bookDescription(b) {
   if (syn.length >= 60) return syn.slice(0, 300);
   const grownUp = (b.category || "Children's Books") !== "Children's Books";
   const kind = grownUp ? 'book for grown-ups' : "children's picture book";
-  const lead = `${b.title}${b.tagline ? ` — ${b.tagline}` : ''}.`;
+  const lead = `${b.title}${b.tagline ? ` - ${b.tagline}` : ''}.`;
   const body = `A ${kind} by ${AUTHOR}${b.ageRange ? `, for ages ${b.ageRange}` : ''}.`;
   return [lead, body, syn].filter(Boolean).join(' ');
 }
@@ -48,39 +48,39 @@ function bookDescription(b) {
 const STATIC_PAGES = {
   '/books': {
     title: "Children's Picture Books by Alora Swift",
-    description: 'Whimsical picture books and early readers for little ones by Alora Swift — bedtime stories, animal adventures and read-aloud favourites for ages 3-7.',
+    description: 'Whimsical picture books and early readers for little ones by Alora Swift - bedtime stories, animal adventures and read-aloud favourites for ages 3-7.',
     heading: 'Picture Books for Little Readers',
-    intro: 'Whimsical animal adventures, bedtime stories and read-aloud favourites for ages 3-7 — every one made to be read together.',
+    intro: 'Whimsical animal adventures, bedtime stories and read-aloud favourites for ages 3-7 - every one made to be read together.',
   },
   '/senior-books': {
     title: 'Books for Grown-Ups | Quizzes & Brain Games by Alora Swift',
-    description: 'Nostalgia quizzes, brain games and light reads for grown-ups — books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
+    description: 'Nostalgia quizzes, brain games and light reads for grown-ups - books for parents, grandparents and anyone keeping their mind busy, by Alora Swift.',
     heading: 'Books for Grown-Ups',
-    intro: 'Nostalgia quizzes, brain games and light reads — for parents, grandparents and anyone who likes to keep their mind busy.',
+    intro: 'Nostalgia quizzes, brain games and light reads - for parents, grandparents and anyone who likes to keep their mind busy.',
   },
   '/about': {
     title: "About Alora Swift | Children's Book Author",
-    description: 'Meet Alora Swift — former kindergarten teacher, big kid at heart, and the author behind whimsical picture books for little readers.',
+    description: 'Meet Alora Swift - former kindergarten teacher, big kid at heart, and the author behind whimsical picture books for little readers.',
     heading: 'About Alora Swift',
     intro: 'Storyteller, former kindergarten teacher and big kid at heart. I write books that make little eyes light up and sleepy voices beg for "just one more page."',
   },
   '/journal': {
     title: 'The Storybook Blog | Alora Swift',
-    description: "Behind-the-scenes peeks, reading lists, printable activities, and tips for reading aloud to little ones — from children's author Alora Swift.",
+    description: "Behind-the-scenes peeks, reading lists, printable activities, and tips for reading aloud to little ones - from children's author Alora Swift.",
     heading: 'The Storybook Blog',
     intro: 'Behind-the-scenes peeks, reading lists, printable activities, and tips to share with your little ones.',
   },
   '/free-coloring-book': {
     title: 'Free Printable Colouring Book for Kids | Alora Swift',
-    description: 'Download a free six-page printable colouring book — Cuddles the koala, Penny the platypus, a seven-band rainbow and a full moon — for ages 3-7.',
+    description: 'Download a free six-page printable colouring book - Cuddles the koala, Penny the platypus, a seven-band rainbow and a full moon - for ages 3-7.',
     heading: 'The Free Colouring Book',
-    intro: 'Six printable A4 pages for ages 3-7 — Cuddles the koala, Penny the platypus, a seven-band rainbow and a very full moon. Print one at a time, and let them choose.',
-    // Crawlable content, mirrored from src/pages/ColoringBook.tsx — keep the two in sync.
+    intro: 'Six printable A4 pages for ages 3-7 - Cuddles the koala, Penny the platypus, a seven-band rainbow and a very full moon. Print one at a time, and let them choose.',
+    // Crawlable content, mirrored from src/pages/ColoringBook.tsx - keep the two in sync.
     body: [
-      '<p><a href="/free-coloring-book.pdf">Download the printable colouring book (PDF)</a> — free, no signup, and yours to photocopy for a classroom or playgroup.</p>',
+      '<p><a href="/free-coloring-book.pdf">Download the printable colouring book (PDF)</a> - free, no signup, and yours to photocopy for a classroom or playgroup.</p>',
       '<h2>What is inside</h2>',
       '<ul>',
-      '<li>The cover — a title page for them to colour and sign</li>',
+      '<li>The cover - a title page for them to colour and sign</li>',
       '<li>Cuddles the koala, from <a href="/books/cuddles-loses-his-home">Cuddles Loses His Home</a></li>',
       '<li>Penny the platypus, from <a href="/books/penny-and-the-silver-stream">Penny and the Silver Stream</a></li>',
       '<li>A seven-band rainbow, deliberately left empty to colour</li>',
@@ -88,7 +88,7 @@ const STATIC_PAGES = {
       '<li>A "The End" page to finish and sign</li>',
       '</ul>',
       '<h2>Why colouring helps early reading</h2>',
-      '<p>Colouring builds pencil grip and control, rehearses reading left to right and top to bottom, adds vocabulary through talk ("what colour is his nose?") and gives a child ownership of a character — so the story feels like visiting someone they made.</p>',
+      '<p>Colouring builds pencil grip and control, rehearses reading left to right and top to bottom, adds vocabulary through talk ("what colour is his nose?") and gives a child ownership of a character - so the story feels like visiting someone they made.</p>',
       '<p>Print one page at a time rather than all six, let them choose which, and sit nearby without supervising. Colouring is a conversation activity, not a silent one.</p>',
       '<h2>Reading to go with it</h2>',
       '<p>Every page comes from a book: see <a href="/books">the children\'s picture books</a>, or read more about <a href="/journal/free-colouring-pages-early-reading">why colouring helps early reading</a>.</p>',
@@ -99,7 +99,7 @@ const STATIC_PAGES = {
     description: 'How Alora Swift collects, uses, and protects personal information on aloraswift.com.',
     heading: 'Privacy Policy',
     intro: 'How Alora Swift collects, uses, and protects personal information on aloraswift.com.',
-    // Full text mirrored from src/pages/Privacy.tsx — keep the two in sync.
+    // Full text mirrored from src/pages/Privacy.tsx - keep the two in sync.
     body: [
       '<p>Last updated: 24 August 2026</p>',
       '<h2>Who we are</h2>',
@@ -111,7 +111,7 @@ const STATIC_PAGES = {
       '<h2>Cookies</h2>',
       '<p>We do not use advertising cookies. If we add analytics or other services that use cookies in the future, this policy will be updated to explain them.</p>',
       '<h2>Third-party services</h2>',
-      '<p>This site is hosted on <strong>Vercel</strong> and uses <strong>Sanity</strong> to serve book and blog content. Purchases of books are completed on <strong>Amazon</strong> (or the retailer shown on the book page), and those sites have their own privacy policies — please read them before shopping.</p>',
+      '<p>This site is hosted on <strong>Vercel</strong> and uses <strong>Sanity</strong> to serve book and blog content. Purchases of books are completed on <strong>Amazon</strong> (or the retailer shown on the book page), and those sites have their own privacy policies - please read them before shopping.</p>',
       "<h2>Children's privacy</h2>",
       '<p>Our books are written for children, but this website is designed for parents, carers, and educators. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, contact us and we will delete it promptly.</p>',
       '<h2>Your rights</h2>',
@@ -125,10 +125,10 @@ const STATIC_PAGES = {
     description: 'The terms that apply when you use aloraswift.com.',
     heading: 'Terms of Service',
     intro: 'The terms that apply when you use aloraswift.com.',
-    // Full text mirrored from src/pages/Terms.tsx — keep the two in sync.
+    // Full text mirrored from src/pages/Terms.tsx - keep the two in sync.
     body: [
       '<h2>Using this website</h2>',
-      '<p>By using aloraswift.com you agree to these terms. The content on this site — text, images, and illustrations — belongs to Alora Swift unless stated otherwise and may not be reproduced without permission.</p>',
+      '<p>By using aloraswift.com you agree to these terms. The content on this site - text, images, and illustrations - belongs to Alora Swift unless stated otherwise and may not be reproduced without permission.</p>',
       '<h2>Content is for information and enjoyment</h2>',
       '<p>Blog posts, reading lists, and activity ideas are shared to inform and entertain. We do our best to keep everything accurate, but content may change and is provided "as is" without warranties of any kind.</p>',
       '<h2>Buying books</h2>',
@@ -146,13 +146,13 @@ const STATIC_PAGES = {
     title: 'Affiliate Disclosure | Alora Swift',
     description: 'Some links on aloraswift.com may earn the author a small commission at no extra cost to you.',
     heading: 'Affiliate Disclosure',
-    intro: 'Some links on this site are affiliate links — if you buy through them, Alora may earn a small commission at no extra cost to you.',
-    // Full text mirrored from src/pages/Disclosure.tsx — keep the two in sync.
+    intro: 'Some links on this site are affiliate links - if you buy through them, Alora may earn a small commission at no extra cost to you.',
+    // Full text mirrored from src/pages/Disclosure.tsx - keep the two in sync.
     body: [
       '<p>Last updated: 24 August 2026</p>',
       '<p><strong>Some links on this site are affiliate links.</strong></p>',
-      '<p>This means that if you click a book or product link and make a purchase, Alora Swift may earn a small commission — <strong>at no extra cost to you</strong>.</p>',
-      "<p>Where we recommend a book, game, or toy on this site, it's because we genuinely love it and think your family will too — not because of the commission. Affiliate earnings help support the time and care that goes into writing and sharing these stories.</p>",
+      '<p>This means that if you click a book or product link and make a purchase, Alora Swift may earn a small commission - <strong>at no extra cost to you</strong>.</p>',
+      "<p>Where we recommend a book, game, or toy on this site, it's because we genuinely love it and think your family will too - not because of the commission. Affiliate earnings help support the time and care that goes into writing and sharing these stories.</p>",
       "<p>Book purchases are completed with the retailer (such as Amazon) under their own terms and privacy policies. We never recommend anything we wouldn't happily read (or play) ourselves.</p>",
       "<p>Thank you so much for supporting independent children's authors! 💛</p>",
     ],
@@ -225,7 +225,7 @@ function buildHtml(template, { title, description, canonical, image, type, bodyH
   setMeta('name', 'twitter:title', title);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', img);
-  // Route-specific extras — e.g. the article:* tags Pinterest Rich Pins require on Article pages.
+  // Route-specific extras - e.g. the article:* tags Pinterest Rich Pins require on Article pages.
   for (const [attr, key, content] of extraMeta || []) if (content) setMeta(attr, key, content);
   const head = [
     `<link rel="canonical" href="${esc(canonical)}" />`,
@@ -244,7 +244,7 @@ const bookUrl = (slug) => `${SITE}/books/${slug}`;
 
 async function main() {
   const templatePath = path.join(DIST, 'index.html');
-  if (!fs.existsSync(templatePath)) throw new Error('dist/index.html not found — run vite build first');
+  if (!fs.existsSync(templatePath)) throw new Error('dist/index.html not found - run vite build first');
   const template = fs.readFileSync(templatePath, 'utf8');
 
   const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
@@ -268,7 +268,7 @@ async function main() {
       '<h1>Where imagination takes flight</h1>',
       `<p>${esc(DEFAULT_DESC)}</p>`,
       '<h2>Books</h2><ul>',
-      ...homeBooks.map((b) => `<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.synopsis ? ` — ${esc(String(b.synopsis).slice(0, 160))}` : ''}</li>`),
+      ...homeBooks.map((b) => `<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.synopsis ? ` - ${esc(String(b.synopsis).slice(0, 160))}` : ''}</li>`),
       '</ul>',
       '<h2>Explore</h2><ul>',
       '<li><a href="/books">Children\'s picture books</a></li>',
@@ -301,7 +301,7 @@ async function main() {
         if (!list.length) continue;
         body.push(`<h2>${esc(cat)}</h2><ul>`);
         for (const b of list) {
-          body.push(`<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.tagline ? ` — ${esc(b.tagline)}` : ''}${b.ageRange ? ` (ages ${esc(b.ageRange)})` : ''}</li>`);
+          body.push(`<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.tagline ? ` - ${esc(b.tagline)}` : ''}${b.ageRange ? ` (ages ${esc(b.ageRange)})` : ''}</li>`);
           items.push({ '@type': 'ListItem', position: items.length + 1, name: b.title, url: bookUrl(b.slug) });
         }
         body.push('</ul>');
@@ -318,7 +318,7 @@ async function main() {
       if (grownUpBooks.length) {
         body.push('<h2>Books for Grown-Ups</h2><ul>');
         for (const b of grownUpBooks) {
-          body.push(`<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.tagline ? ` — ${esc(b.tagline)}` : ''}</li>`);
+          body.push(`<li><a href="/books/${esc(b.slug)}">${esc(b.title)}</a>${b.tagline ? ` - ${esc(b.tagline)}` : ''}</li>`);
           items.push({ '@type': 'ListItem', position: items.length + 1, name: b.title, url: bookUrl(b.slug) });
         }
         body.push('</ul>');
@@ -333,7 +333,7 @@ async function main() {
     if (route === '/journal') {
       if (posts.length) {
         body.push('<h2>Latest posts</h2><ul>');
-        for (const p of posts) body.push(`<li><a href="/journal/${esc(p.slug)}">${esc(p.title)}</a>${p.excerpt ? ` — ${esc(p.excerpt)}` : ''}</li>`);
+        for (const p of posts) body.push(`<li><a href="/journal/${esc(p.slug)}">${esc(p.title)}</a>${p.excerpt ? ` - ${esc(p.excerpt)}` : ''}</li>`);
         body.push('</ul>');
       }
       body.push('<p><a href="/">Join the Storybook Club</a> for new posts, reading lists and free printables.</p>');

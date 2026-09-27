@@ -1,9 +1,9 @@
-# Alora Swift — aloraswift.com
+# Alora Swift - aloraswift.com
 
 The official website of **Alora Swift**, children's picture book author.
 
 - **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4
-- **CMS:** Sanity (`2fs2ltni` / dataset `production`) — books, reviews, journal posts
+- **CMS:** Sanity (`2fs2ltni` / dataset `production`) - books, reviews, journal posts
 - **Deploy:** Vercel (auto-deploys from `main` on GitHub)
 - **Repo:** https://github.com/AlSedge/aloraswift-website
 
@@ -45,7 +45,7 @@ with `npm run dev` to add/edit content; the site fetches it client-side.
 
 - `public/robots.txt` + `public/sitemap.xml` are static.
 - Per-route titles/descriptions/canonical/OG/JSON-LD are applied at runtime via `src/lib/seo.ts`.
-- **New book:** add its URL to `public/sitemap.xml` (or move the site to prerendering/SSG — the
+- **New book:** add its URL to `public/sitemap.xml` (or move the site to prerendering/SSG - the
   long-term fix).
 - `vercel.json` rewrites every route to `/` so client-side routes survive refreshes (static files
   like `robots.txt` still win, same as the Awakesol setup).

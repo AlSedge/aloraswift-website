@@ -26,12 +26,12 @@ export default function Disclosure() {
                 </p>
                 <p>
                   This means that if you click a book or product link and make a purchase, Alora
-                  Swift may earn a small commission — <strong className="text-slate-800">at no extra
+                  Swift may earn a small commission - <strong className="text-slate-800">at no extra
                   cost to you</strong>.
                 </p>
                 <p>
                   Where we recommend a book, game, or toy on this site, it&apos;s because we genuinely
-                  love it and think your family will too — not because of the commission. Affiliate
+                  love it and think your family will too - not because of the commission. Affiliate
                   earnings help support the time and care that goes into writing and sharing these
                   stories.
                 </p>
