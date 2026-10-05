@@ -99,15 +99,14 @@ export default function ColoringBook() {
         </section>
 
         {/* What's inside */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-16" data-artwork-version="v3" data-artwork-note="Koala and Penny artwork by the author">
           <div className="mx-auto max-w-6xl">
             <h2 className="font-serif text-4xl md:text-5xl font-black text-slate-800 text-center mb-4">
               What&apos;s inside
             </h2>
-            <p className="text-lg text-slate-600 text-center font-medium mb-2 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 text-center font-medium mb-14 max-w-2xl mx-auto">
               Six pages, printed and coloured in any order. Here they are, so you know what you&apos;re printing.
             </p>
-            <p className="text-center text-sm font-bold text-rose-400 mb-14">Artwork version 3</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {PAGES.map((p) => (
                 <div key={p.title} className="bg-white rounded-[2rem] p-5 shadow-sm border border-amber-50 flex flex-col">
