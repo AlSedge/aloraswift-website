@@ -247,7 +247,7 @@ async function main() {
   if (!fs.existsSync(templatePath)) throw new Error('dist/index.html not found - run vite build first');
   const template = fs.readFileSync(templatePath, 'utf8');
 
-  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
+  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, buyLinkUS, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
   const posts = await querySanity('*[_type == "journalPost" && defined(slug.current)]{title, "slug": slug.current, tag, excerpt, body, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
 
   let written = 0;
@@ -377,6 +377,7 @@ async function main() {
       `<p>${esc(description)}</p>`,
       b.ageRange ? `<p>Ages: ${esc(b.ageRange)}</p>` : '',
       b.buyLink ? `<p><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy the book</a></p>` : '',
+      b.buyLinkUS ? `<p><a href="${esc(b.buyLinkUS)}" rel="nofollow sponsored noopener" target="_blank">Buy from Amazon US</a></p>` : '',
       `<p><a href="${(b.category || "Children\'s Books") === "Children\'s Books" ? '/books' : '/senior-books'}">Back to all books</a></p>`,
       '</article>',
     ].filter(Boolean).join('\n');

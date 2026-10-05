@@ -135,6 +135,16 @@ export default function BookDetail() {
                             Buy the Book
                           </a>
                         )}
+                        {book.buyLinkUS && (
+                          <a
+                            href={book.buyLinkUS}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
+                          >
+                            Buy from Amazon US
+                          </a>
+                        )}
                         {book.excerptLink && (
                           <a
                             href={book.excerptLink}
