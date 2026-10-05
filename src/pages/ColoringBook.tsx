@@ -10,12 +10,12 @@ const WEB3FORMS_KEY = '83d75253-87c1-4e99-8652-d983928f1d38';
 // /free-coloring-book.pdf; before this page existed the file had no landing
 // page, so nothing could link to it except the raw download.
 const PAGES = [
-  { img: '/coloring/page-1-v3.webp?v3b', title: 'The cover', text: 'A title page for them to colour and sign - theirs before they have drawn a thing.' },
-  { img: '/coloring/page-2-v3.webp?v3b', title: 'Cuddles the koala', text: 'The lost koala bear from Cuddles Loses His Home, up in his gum tree.' },
-  { img: '/coloring/page-3-v3.webp?v3b', title: 'Penny the platypus', text: 'Penny from The Silver Stream, in the water she spends the story trying to save.' },
-  { img: '/coloring/page-4-v3.webp?v3b', title: 'A seven-band rainbow', text: 'Left empty on purpose - seven separate bands, one for every colour they can name.' },
-  { img: '/coloring/page-5-v3.webp?v3b', title: 'A full moon', text: 'With a face and craters, for the child who likes to talk while they colour.' },
-  { img: '/coloring/page-6-v3.webp?v3b', title: 'A "The End" page', text: 'Because finishing something and signing your name is a big deal at four.' },
+  { img: '/coloring/v3/page-1.webp', title: 'The cover', text: 'A title page for them to colour and sign - theirs before they have drawn a thing.' },
+  { img: '/coloring/v3/page-2.webp', title: 'Cuddles the koala', text: 'The lost koala bear from Cuddles Loses His Home, up in his gum tree.' },
+  { img: '/coloring/v3/page-3.webp', title: 'Penny the platypus', text: 'Penny from The Silver Stream, in the water she spends the story trying to save.' },
+  { img: '/coloring/v3/page-4.webp', title: 'A seven-band rainbow', text: 'Left empty on purpose - seven separate bands, one for every colour they can name.' },
+  { img: '/coloring/v3/page-5.webp', title: 'A full moon', text: 'With a face and craters, for the child who likes to talk while they colour.' },
+  { img: '/coloring/v3/page-6.webp', title: 'A "The End" page', text: 'Because finishing something and signing your name is a big deal at four.' },
 ];
 
 const WHY = [
