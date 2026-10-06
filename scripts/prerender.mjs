@@ -247,7 +247,7 @@ async function main() {
   if (!fs.existsSync(templatePath)) throw new Error('dist/index.html not found - run vite build first');
   const template = fs.readFileSync(templatePath, 'utf8');
 
-  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, buyLinkUS, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
+  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, buyLinkUS, reviewQuote, reviewAuthor, isNewRelease, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
   const posts = await querySanity('*[_type == "journalPost" && defined(slug.current)]{title, "slug": slug.current, tag, excerpt, body, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
 
   let written = 0;
@@ -369,16 +369,39 @@ async function main() {
   for (const b of books) {
     const url = bookUrl(b.slug);
     const description = bookDescription(b);
+    const childBook = (b.category || "Children's Books") === "Children's Books";
+    const hub = childBook ? '/books' : '/senior-books';
+    // Other titles from the same shelf, which doubles as internal linking between books.
+    const siblings = books
+      .filter((x) => x.slug !== b.slug && (x.category || "Children's Books") === (b.category || "Children's Books"))
+      .slice(0, 4);
     const body = [
       '<article>',
       `<h1>${esc(b.title)}</h1>`,
       b.tagline ? `<p><em>${esc(b.tagline)}</em></p>` : '',
       b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} cover" width="600" />` : '',
+      '<h2>About this book</h2>',
       `<p>${esc(description)}</p>`,
-      b.ageRange ? `<p>Ages: ${esc(b.ageRange)}</p>` : '',
-      b.buyLink ? `<p><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy the book</a></p>` : '',
-      b.buyLinkUS ? `<p><a href="${esc(b.buyLinkUS)}" rel="nofollow sponsored noopener" target="_blank">Buy from Amazon US</a></p>` : '',
-      `<p><a href="${(b.category || "Children\'s Books") === "Children\'s Books" ? '/books' : '/senior-books'}">Back to all books</a></p>`,
+      b.reviewQuote ? `<blockquote><p>${esc(b.reviewQuote)}${b.reviewAuthor ? ' - ' + esc(b.reviewAuthor) : ''}</p></blockquote>` : '',
+      '<h2>At a glance</h2>',
+      '<ul>',
+      b.ageRange ? `<li>Ages ${esc(b.ageRange)}</li>` : '',
+      `<li>${esc(b.category || "Children's Books")}</li>`,
+      b.isNewRelease ? '<li>New release</li>' : '',
+      childBook ? '<li>Written and illustrated for reading aloud together</li>' : '<li>Written for grown-up readers</li>',
+      '</ul>',
+      b.buyLink || b.buyLinkUS ? '<h2>Where to buy</h2>' : '',
+      '<ul>',
+      b.buyLink ? `<li><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy ${esc(b.title)} on Amazon</a></li>` : '',
+      b.buyLinkUS ? `<li><a href="${esc(b.buyLinkUS)}" rel="nofollow sponsored noopener" target="_blank">Buy from Amazon in the United States</a></li>` : '',
+      '</ul>',
+      childBook ? '<h2>Free printables and reading ideas</h2>' : '',
+      childBook ? '<p>There is a <a href="/free-coloring-book">free printable colouring book</a> to go with these stories, and the <a href="/journal">Storybook Blog</a> has reading lists, printables and tips for reading aloud.</p>' : '',
+      siblings.length ? '<h2>More books by Alora Swift</h2>' : '',
+      siblings.length ? '<ul>' : '',
+      ...siblings.map((x) => `<li><a href="/books/${esc(x.slug)}">${esc(x.title)}</a>${x.tagline ? ' - ' + esc(x.tagline) : ''}</li>`),
+      siblings.length ? '</ul>' : '',
+      `<p><a href="${hub}">Back to all books</a></p>`,
       '</article>',
     ].filter(Boolean).join('\n');
     write(`/books/${b.slug}`, buildHtml(template, {
