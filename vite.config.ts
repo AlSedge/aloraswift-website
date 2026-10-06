@@ -29,8 +29,8 @@ export default defineConfig(({ mode }) => {
           ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
           // Dev-only visibility: prints what the app asks for and what came back.
           configure: (proxy) => {
-            proxy.on('proxyReq', (proxyReq, req) => console.log('[preview] ->', req.method, req.url.slice(0, 120)));
-            proxy.on('proxyRes', (proxyRes, req) => console.log('[preview] <-', proxyRes.statusCode, req.url.slice(0, 80)));
+            proxy.on('proxyReq', (_proxyReq, req) => console.log('[preview] ->', req.method, req.url?.slice(0, 120)));
+            proxy.on('proxyRes', (proxyRes, req) => console.log('[preview] <-', proxyRes.statusCode, req.url?.slice(0, 80)));
           },
         },
       },
