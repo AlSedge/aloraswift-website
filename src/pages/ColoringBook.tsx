@@ -148,22 +148,6 @@ export default function ColoringBook() {
           </div>
         </section>
 
-        {/* Seasonal cross-link */}
-        <section className="px-6 pb-4">
-          <div className="mx-auto max-w-4xl bg-white rounded-[2rem] p-8 border-2 border-amber-100 shadow-sm text-center">
-            <h2 className="font-serif text-2xl font-bold text-slate-800 mb-2">Looking for Halloween pages?</h2>
-            <p className="text-slate-600 font-medium mb-5">
-              There is a free pumpkin, ghost, bat and spider&apos;s web to print as well.
-            </p>
-            <Link
-              to="/free-halloween-coloring-book"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-amber-500 px-8 font-bold text-white transition-all hover:-translate-y-1 hover:bg-amber-400"
-            >
-              Halloween colouring pages
-            </Link>
-          </div>
-        </section>
-
         {/* Newsletter */}
         <section className="px-6 py-16 pb-28">
           <div className="mx-auto max-w-3xl bg-sky-400 rounded-[3rem] p-10 md:p-14 text-center relative overflow-hidden">
