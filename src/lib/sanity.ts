@@ -1,16 +1,44 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
+// Draft preview: on the local dev server, any page opened with ?preview=1 reads
+// unpublished drafts. Those requests go through the dev-server proxy (vite.config.ts)
+// so the token stays server side, and the deployed site is unaffected - without the
+// flag the client behaves exactly as before.
+const previewRequested =
+  typeof window !== 'undefined' &&
+  // Local only: the proxy that supplies the token exists solely on the dev server, so on
+  // the live site ?preview=1 must change nothing at all.
+  ['localhost', '127.0.0.1'].includes(window.location.hostname) &&
+  new URLSearchParams(window.location.search).has('preview');
+
 export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID || '2fs2ltni',
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-  useCdn: true,
+  useCdn: !previewRequested,
   apiVersion: '2023-05-03',
-  // Drafts are written by the import tooling for review; they must never appear here.
-  perspective: 'published',
+  // Drafts are written by the import tooling for review; the live site must not show them.
+  perspective: previewRequested ? 'previewDrafts' : 'published',
+  // In preview, requests go through the dev server, which adds the token server side.
+  // apiHost is the option the client actually honours (it rebuilds `url` from it):
+  // with useProjectHostname off, the URL becomes protocol://<apiHost>/v<apiVersion>.
+  ...(previewRequested
+    ? {
+        useProjectHostname: false,
+        apiHost: `${window.location.protocol}//${window.location.host}/sanity-preview`,
+      }
+    : {}),
 });
 
-const builder = imageUrlBuilder(client);
+// Images always resolve against the Sanity CDN. The preview client's apiHost points at
+// the local proxy, so the builder deliberately uses its own plain client.
+const imageClient = createClient({
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || '2fs2ltni',
+  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+  apiVersion: '2023-05-03',
+  useCdn: true,
+});
+const builder = imageUrlBuilder(imageClient);
 export function urlFor(source: any) {
   return builder.image(source);
 }

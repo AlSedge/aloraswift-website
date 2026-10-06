@@ -17,6 +17,14 @@ function App() {
   return (
     <BrowserRouter>
       <Seo />
+      {/* Shows only with ?preview=1 on the local dev server: drafts are visible. */}
+      {typeof window !== 'undefined' &&
+        ['localhost', '127.0.0.1'].includes(window.location.hostname) &&
+        new URLSearchParams(window.location.search).has('preview') && (
+        <div className="preview-banner fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-2xl">
+          Draft preview - unpublished changes are visible
+        </div>
+      )}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/books" element={<Books />} />
