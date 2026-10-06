@@ -11,7 +11,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const projectId = env.VITE_SANITY_PROJECT_ID || '2fs2ltni'
-  const dataset = env.VITE_SANITY_DATASET || 'production'
   const token = env.SANITY_PREVIEW_TOKEN
 
   return {
