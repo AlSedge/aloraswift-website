@@ -71,6 +71,11 @@ const ROUTE_META: Record<string, SeoMeta> = {
     description: 'A storybook blog post from children\u2019s author Alora Swift.',
     type: 'article',
   },
+  '/free-halloween-coloring-book': {
+    title: 'Free Halloween Colouring Pages for Kids | Alora Swift',
+    description:
+      'Download six free Halloween colouring pages for ages 2-7 - a smiling pumpkin, a friendly ghost, a bat, a cat and a spider web. Print them for a party or a wet afternoon.',
+  },
   '/free-coloring-book': {
     title: 'Free Printable Colouring Book for Kids | Alora Swift',
     description:

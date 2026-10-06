@@ -62,6 +62,9 @@ export default function Footer() {
                 <Link to="/free-coloring-book" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">🖍️ Free Colouring Book</Link>
               </li>
               <li>
+                <Link to="/free-halloween-coloring-book" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">🎃 Halloween Colouring</Link>
+              </li>
+              <li>
                 <Link to="/about" className="hover:text-white hover:translate-x-1 transition-all text-lg flex items-center gap-2">👋 About Alora</Link>
               </li>
               <li>
