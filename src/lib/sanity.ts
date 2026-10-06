@@ -6,6 +6,8 @@ export const client = createClient({
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
   useCdn: true,
   apiVersion: '2023-05-03',
+  // Drafts are written by the import tooling for review; they must never appear here.
+  perspective: 'published',
 });
 
 const builder = imageUrlBuilder(client);
