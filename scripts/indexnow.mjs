@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITEMAP = path.join(__dirname, '..', 'public', 'sitemap.xml');
 const HOST = 'www.aloraswift.com';
-const KEY = 'b92040fb2c944f119ac8aad3ff13ebfa';
+const KEY = '7bc9e8ceee514b36aee360a63d3bc9d8';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINT = 'https://api.indexnow.org/indexnow';
 const dry = process.argv.includes('--dry');
