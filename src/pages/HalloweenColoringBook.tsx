@@ -10,12 +10,12 @@ const WEB3FORMS_KEY = '83d75253-87c1-4e99-8652-d983928f1d38';
 // /free-halloween-coloring-book.pdf. Everything here is friendly rather than spooky -
 // no witches, no monsters, nothing that would trouble a three-year-old at bedtime.
 const PAGES = [
-  { img: '/coloring/halloween-1.webp', title: 'The cover', text: 'Colour the cover in, then write their name in the box.' },
-  { img: '/coloring/halloween-2.webp', title: 'The pumpkin', text: 'One big friendly pumpkin, with plenty of open space for crayons.' },
-  { img: '/coloring/halloween-3.webp', title: 'The friendly ghost', text: 'A friendly ghost who only says hello.' },
-  { img: '/coloring/halloween-4.webp', title: 'The bat', text: 'A little bat with its wings spread wide.' },
-  { img: '/coloring/halloween-5.webp', title: 'The cat', text: 'A calm cat, with whiskers to colour and a tail to finish.' },
-  { img: '/coloring/halloween-6.webp', title: 'The web and goodnight', text: 'A web to colour in, plus a "Coloured by" line to sign.' },
+  { img: '/coloring/halloween-1.webp', title: 'The cover' },
+  { img: '/coloring/halloween-2.webp', title: 'The pumpkin' },
+  { img: '/coloring/halloween-3.webp', title: 'The friendly ghost' },
+  { img: '/coloring/halloween-4.webp', title: 'The bat' },
+  { img: '/coloring/halloween-5.webp', title: 'The cat' },
+  { img: '/coloring/halloween-6.webp', title: 'The web and goodnight' },
 ];
 
 export default function HalloweenColoringBook() {
@@ -106,8 +106,7 @@ export default function HalloweenColoringBook() {
                   <div className="rounded-2xl overflow-hidden mb-5 bg-slate-50">
                     <img src={p.img} alt={`Halloween colouring page: ${p.title}`} loading="lazy" className="w-full h-auto" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-slate-800 mb-2">{p.title}</h3>
-                  <p className="text-slate-600 font-medium leading-relaxed">{p.text}</p>
+                  <h3 className="font-serif text-2xl font-bold text-slate-800 mb-0">{p.title}</h3>
                 </div>
               ))}
             </div>
