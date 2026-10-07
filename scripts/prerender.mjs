@@ -300,7 +300,7 @@ async function main() {
     ].join('\n'),
     jsonLd: [
       { '@context': 'https://schema.org', '@type': 'WebSite', name: AUTHOR, url: SITE, author },
-      { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR, url: SITE, image: `${SITE}/og-image.jpg`, jobTitle: "Children's Book Author" },
+      { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR, url: SITE, image: `${SITE}/alora-forweb-2.jpg`, jobTitle: "Children's Book Author" },
     ],
   }));
 

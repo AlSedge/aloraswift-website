@@ -20,7 +20,7 @@ export const authorJsonLd = {
   '@type': 'Person',
   name: 'Alora Swift',
   url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: `${SITE_URL}/alora-forweb-2.jpg`,
   jobTitle: "Children's Book Author",
   description:
     "Alora Swift is a children's book author and former kindergarten teacher. She writes whimsical picture books about brave platypuses, lost koala bears, and adventures in unexpected places.",
