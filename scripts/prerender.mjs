@@ -260,7 +260,7 @@ function buildHtml(template, { title, description, canonical, image, type, bodyH
   return html;
 }
 
-const author = { '@type': 'Person', name: AUTHOR, url: SITE };
+const author = { '@type': 'Person', name: AUTHOR, url: SITE, image: `${SITE}/alora-forweb-2.jpg` };
 const bookUrl = (slug) => `${SITE}/books/${slug}`;
 
 async function main() {
