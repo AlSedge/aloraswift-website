@@ -345,7 +345,7 @@ export default function Index() {
             <div className="relative group perspective-1000">
               <div className="overflow-hidden rounded-[3rem] aspect-square shadow-2xl border-8 border-white transform transition-transform duration-500 group-hover:rotate-y-6">
                 <img
-                  src={about?.photo ? urlFor(about.photo).width(900).auto('format').url() : "/aloraforweb.png"}
+                  src={about?.photo ? urlFor(about.photo).width(900).auto('format').url() : "/alora-forweb-2.jpg"}
                   alt="Alora Swift in study"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
