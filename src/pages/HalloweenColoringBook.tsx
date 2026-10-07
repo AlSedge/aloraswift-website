@@ -103,10 +103,12 @@ export default function HalloweenColoringBook() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {PAGES.map((p) => (
                 <div key={p.title} className="bg-white rounded-[2rem] p-5 shadow-sm border border-amber-50 flex flex-col">
-                  <div className="rounded-2xl overflow-hidden mb-5 bg-slate-50">
+                  {/* Name first, then the drawing: each drawing already ends with aloraswift.com, so the
+                      name belongs above it rather than underneath that line (author's instruction). */}
+                  <h3 className="font-serif text-2xl font-bold text-slate-800 mb-3">{p.title}</h3>
+                  <div className="rounded-2xl overflow-hidden bg-slate-50">
                     <img src={p.img} alt={`Halloween colouring page: ${p.title}`} loading="lazy" className="w-full h-auto" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-slate-800 mb-0">{p.title}</h3>
                 </div>
               ))}
             </div>
