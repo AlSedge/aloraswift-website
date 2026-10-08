@@ -194,7 +194,8 @@ export default function Index() {
                     <img
                       src={latestBook.coverImage ? urlFor(latestBook.coverImage).width(800).auto('format').url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
                       alt={latestBook.title}
-                      className="w-full aspect-[4/5] object-cover"
+                      className="w-full object-cover"
+                      style={{ aspectRatio: latestBook.coverDims?.width && latestBook.coverDims?.height ? latestBook.coverDims.width / latestBook.coverDims.height : 4 / 5 }}
                     />
                     {!latestBook.coverImage && (
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">

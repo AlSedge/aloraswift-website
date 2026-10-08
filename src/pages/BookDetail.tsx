@@ -49,6 +49,11 @@ export default function BookDetail() {
 
   // Which shelf this book belongs to - children's hub vs grown-up hub
   const isChildrens = (book?.category || "Children's Books") === "Children's Books";
+  // the frame takes the cover's own shape, so object-cover has nothing to crop: a forced 4:5 was cropping
+  // portrait covers, which magnified the title, and a landscape cover lost about 40% of its width
+  const coverAspect = book?.coverDims?.width && book?.coverDims?.height
+    ? book.coverDims.width / book.coverDims.height
+    : 4 / 5;
   const hubPath = isChildrens ? '/books' : '/senior-books';
   const hubLabel = isChildrens ? 'Books' : 'Books for Grown-Ups';
 
@@ -80,7 +85,8 @@ export default function BookDetail() {
                         <img
                           src={book.coverImage ? urlFor(book.coverImage).width(800).auto('format').url() : "https://images.unsplash.com/photo-1531281530990-2c70030dff75?q=80&w=2070&auto=format&fit=crop"}
                           alt={`Cover of ${book.title} by Alora Swift`}
-                          className="w-full aspect-[4/5] object-cover"
+                          className="w-full object-cover"
+                          style={{ aspectRatio: coverAspect }}
                         />
                       </div>
                       {book.isNewRelease && (

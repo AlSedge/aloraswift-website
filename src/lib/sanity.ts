@@ -49,6 +49,7 @@ export interface SanityBook {
   title: string;
   slug: { current: string };
   coverImage: any;
+  coverDims?: { width: number; height: number } | null;
   tagline: string;
   synopsis: string | null;
   reviewQuote: string | null;
@@ -62,7 +63,7 @@ export interface SanityBook {
   isNewRelease: boolean;
 }
 
-const BOOK_PROJECTION = `_id, title, slug, coverImage, tagline, synopsis,
+const BOOK_PROJECTION = `_id, title, slug, coverImage, "coverDims": coverImage.asset->metadata.dimensions, tagline, synopsis,
   reviewQuote, reviewAuthor, buyLink, buyLinkUS, buyLinkUK, excerptLink, ageRange, category, isNewRelease`;
 
 export async function fetchSanityBooks(): Promise<SanityBook[]> {
