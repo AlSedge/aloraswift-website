@@ -268,7 +268,7 @@ async function main() {
   if (!fs.existsSync(templatePath)) throw new Error('dist/index.html not found - run vite build first');
   const template = fs.readFileSync(templatePath, 'utf8');
 
-  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, buyLinkUS, reviewQuote, reviewAuthor, isNewRelease, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
+  const books = await querySanity('*[_type == "book" && defined(slug.current)]{title, "slug": slug.current, synopsis, tagline, ageRange, category, buyLink, buyLinkUS, buyLinkUK, reviewQuote, reviewAuthor, isNewRelease, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
   const posts = await querySanity('*[_type == "journalPost" && defined(slug.current)]{title, "slug": slug.current, tag, excerpt, body, "cover": coverImage.asset->url, publishedAt} | order(publishedAt desc)');
 
   let written = 0;
@@ -411,9 +411,10 @@ async function main() {
       b.isNewRelease ? '<li>New release</li>' : '',
       childBook ? '<li>Written and illustrated for reading aloud together</li>' : '<li>Written for grown-up readers</li>',
       '</ul>',
-      b.buyLink || b.buyLinkUS ? '<h2>Where to buy</h2>' : '',
+      b.buyLink || b.buyLinkUS || b.buyLinkUK ? '<h2>Where to buy</h2>' : '',
       '<ul>',
       b.buyLink ? `<li><a href="${esc(b.buyLink)}" rel="nofollow sponsored noopener" target="_blank">Buy ${esc(b.title)} on Amazon</a></li>` : '',
+      b.buyLinkUK ? `<li><a href="${esc(b.buyLinkUK)}" rel="nofollow sponsored noopener" target="_blank">Buy from Amazon in the United Kingdom</a></li>` : '',
       b.buyLinkUS ? `<li><a href="${esc(b.buyLinkUS)}" rel="nofollow sponsored noopener" target="_blank">Buy from Amazon in the United States</a></li>` : '',
       '</ul>',
       childBook ? '<h2>Free printables and reading ideas</h2>' : '',

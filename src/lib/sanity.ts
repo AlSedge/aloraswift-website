@@ -55,6 +55,7 @@ export interface SanityBook {
   reviewAuthor: string | null;
   buyLink: string | null;
   buyLinkUS: string | null;
+  buyLinkUK: string | null;
   excerptLink: string | null;
   ageRange: string | null;
   category: string;
@@ -62,7 +63,7 @@ export interface SanityBook {
 }
 
 const BOOK_PROJECTION = `_id, title, slug, coverImage, tagline, synopsis,
-  reviewQuote, reviewAuthor, buyLink, buyLinkUS, excerptLink, ageRange, category, isNewRelease`;
+  reviewQuote, reviewAuthor, buyLink, buyLinkUS, buyLinkUK, excerptLink, ageRange, category, isNewRelease`;
 
 export async function fetchSanityBooks(): Promise<SanityBook[]> {
   const query = `*[_type == "book"] | order(publishedAt desc) { ${BOOK_PROJECTION} }`;
