@@ -76,6 +76,11 @@ const ROUTE_META: Record<string, SeoMeta> = {
     description:
       'Download six free Halloween colouring pages for ages 2-7 - a smiling pumpkin, a friendly ghost, a bat, a cat and a spider web. Print them for a party or a wet afternoon.',
   },
+  '/free-christmas-coloring-book': {
+    title: 'Free Christmas Colouring Pages for Kids | Alora Swift',
+    description:
+      'Download six free Christmas colouring pages for ages 2-7 - a Christmas tree, a smiling snowman, a robin, a gingerbread man and a stocking. Print them at home, no signup.',
+  },
   '/free-coloring-book': {
     title: 'Free Printable Colouring Book for Kids | Alora Swift',
     description:

@@ -8,6 +8,7 @@ import Journal from "./pages/Journal";
 import JournalPost from "./pages/JournalPost";
 import ColoringBook from "./pages/ColoringBook";
 import HalloweenColoringBook from "./pages/HalloweenColoringBook";
+import ChristmasColoringBook from "./pages/ChristmasColoringBook";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Disclosure from "./pages/Disclosure";
@@ -36,6 +37,7 @@ function App() {
         <Route path="/journal/:slug" element={<JournalPost />} />
         <Route path="/free-coloring-book" element={<ColoringBook />} />
         <Route path="/free-halloween-coloring-book" element={<HalloweenColoringBook />} />
+        <Route path="/free-christmas-coloring-book" element={<ChristmasColoringBook />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/disclosure" element={<Disclosure />} />

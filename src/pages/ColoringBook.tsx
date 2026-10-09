@@ -151,16 +151,25 @@ export default function ColoringBook() {
         {/* Seasonal cross-link */}
         <section className="px-6 pb-4">
           <div className="mx-auto max-w-4xl bg-white rounded-[2rem] p-8 border-2 border-amber-100 shadow-sm text-center">
-            <h2 className="font-serif text-2xl font-bold text-slate-800 mb-2">Looking for Halloween pages?</h2>
+            <h2 className="font-serif text-2xl font-bold text-slate-800 mb-2">Looking for seasonal pages?</h2>
             <p className="text-slate-600 font-medium mb-5">
-              There is a free pumpkin, ghost, bat and spider&apos;s web to print as well.
+              There are free Halloween and Christmas sets to print as well - a pumpkin, a ghost, a bat, a tree, a
+              snowman and a gingerbread man.
             </p>
-            <Link
-              to="/free-halloween-coloring-book"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-amber-500 px-8 font-bold text-white transition-all hover:-translate-y-1 hover:bg-amber-400"
-            >
-              Halloween colouring pages
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                to="/free-halloween-coloring-book"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-amber-500 px-8 font-bold text-white transition-all hover:-translate-y-1 hover:bg-amber-400"
+              >
+                Halloween colouring pages
+              </Link>
+              <Link
+                to="/free-christmas-coloring-book"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-emerald-600 px-8 font-bold text-white transition-all hover:-translate-y-1 hover:bg-emerald-500"
+              >
+                Christmas colouring pages
+              </Link>
+            </div>
           </div>
         </section>
 

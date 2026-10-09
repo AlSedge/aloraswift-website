@@ -20,6 +20,7 @@ const STATIC_ROUTES = [
   { path: '/journal', priority: '0.7', changefreq: 'weekly' },
   { path: '/free-coloring-book', priority: '0.8', changefreq: 'monthly' },
   { path: '/free-halloween-coloring-book', priority: '0.8', changefreq: 'yearly' },
+  { path: '/free-christmas-coloring-book', priority: '0.8', changefreq: 'yearly' },
   { path: '/disclosure', priority: '0.3', changefreq: 'yearly' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly' },
   { path: '/terms', priority: '0.3', changefreq: 'yearly' },
