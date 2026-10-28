@@ -130,13 +130,13 @@ export default function BookDetail() {
                         </div>
                       )}
 
-                      <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                         {book.buyLink && (
                           <a
                             href={book.buyLink}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex h-16 items-center justify-center rounded-full bg-rose-500 px-10 text-lg font-bold text-white shadow-xl shadow-rose-200 transition-all hover:-translate-y-1 hover:bg-rose-400 hover:shadow-rose-300"
+                            className="inline-flex min-h-16 max-w-full min-w-0 items-center justify-center rounded-full py-3 text-center leading-snug bg-rose-500 px-6 sm:px-8 text-lg font-bold text-white shadow-xl shadow-rose-200 transition-all hover:-translate-y-1 hover:bg-rose-400 hover:shadow-rose-300"
                           >
                             Buy the Book
                           </a>
@@ -146,7 +146,7 @@ export default function BookDetail() {
                             href={book.buyLinkUK}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
+                            className="inline-flex min-h-16 max-w-full min-w-0 items-center justify-center rounded-full py-3 text-center leading-snug bg-white border-2 border-slate-200 px-6 sm:px-8 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
                           >
                             Buy from Amazon UK
                           </a>
@@ -156,7 +156,7 @@ export default function BookDetail() {
                             href={book.buyLinkUS}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
+                            className="inline-flex min-h-16 max-w-full min-w-0 items-center justify-center rounded-full py-3 text-center leading-snug bg-white border-2 border-slate-200 px-6 sm:px-8 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
                           >
                             Buy from Amazon US
                           </a>
@@ -166,14 +166,14 @@ export default function BookDetail() {
                             href={book.excerptLink}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
+                            className="inline-flex min-h-16 max-w-full min-w-0 items-center justify-center rounded-full py-3 text-center leading-snug bg-white border-2 border-slate-200 px-6 sm:px-8 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
                           >
                             Read an Excerpt
                           </a>
                         )}
                         <Link
                           to={hubPath}
-                          className="inline-flex h-16 items-center justify-center rounded-full bg-white border-2 border-slate-200 px-10 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
+                          className="inline-flex min-h-16 max-w-full min-w-0 items-center justify-center rounded-full py-3 text-center leading-snug bg-white border-2 border-slate-200 px-6 sm:px-8 text-lg font-bold text-slate-700 transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50"
                         >
                           {isChildrens ? 'All Books' : 'All Grown-Up Books'}
                         </Link>
